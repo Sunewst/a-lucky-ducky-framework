@@ -4,7 +4,6 @@ signal currently_typing
 signal board_changed
 signal line_edited
 
-
 @onready var code_editor: CodeEdit = %CodeEdit
 @onready var current_board: String = boards_info[1].board_FQBN
 
@@ -86,6 +85,7 @@ func _ready() -> void:
 	_text_timer.timeout.connect(finished_typing)
 
 	mark_loop()
+	mark_libraries()
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -131,7 +131,7 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 			_compiled_code.insert_line_at(_compiled_code.get_line_count() - 1, _current_line)
 	
 	for library in _libraries_added:
-		var _library_update_function: String = arduino_libraries[arduino_libraries.find(library)].library_update_function
+		var _library_update_function
 		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_update_function)
 		_loop_start_location.y += 1
 
@@ -260,6 +260,7 @@ func mark_loop() -> void:
 
 func mark_libraries():
 	var _library_locations: Array[Vector2i] = find_total_occurrences("#include ")
+	_libraries_added.clear()
 	if not _library_locations.is_empty():
 		for location in _library_locations:
 			code_editor.set_line_gutter_text(location.y, GUTTER, '#')

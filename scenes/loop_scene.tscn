@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cemvov1fr7kwl"]
+[gd_scene load_steps=4 format=3 uid="uid://cemvov1fr7kwl"]
 
 [ext_resource type="Script" uid="uid://g6twjjmvbamv" path="res://scripts/serial_communication/loop_window.gd" id="1_qa8it"]
+[ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="2_8bi3g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qa8it"]
 bg_color = Color(0.004448938, 0.0044490336, 0.044439085, 1)
@@ -29,3 +30,17 @@ offset_bottom = 149.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qa8it")
+
+[node name="TextEdit" type="TextEdit" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_8bi3g")
+text = "void loop() {
+	
+
+}"
+editable = false

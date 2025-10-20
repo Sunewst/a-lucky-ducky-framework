@@ -132,19 +132,22 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	
 	for library in _libraries_added:
 		var _library_update_function: String
-		var _library_function: String
+		var _library_print: String
+
 
 		for available_library in arduino_libraries:
 			if available_library.library_name.contains(library):
 				var _library_initialization_var: String
+				var _library_function: String
 				var _initialization_location = code_editor.search(available_library.library_name.get_slice(".", 0), 4, 0, 0)
 
 				_library_update_function = available_library.library_update_function
 				_library_initialization_var = code_editor.get_line(_initialization_location.y).get_slice(" ", 1).replace(";", "")
 
-				_library_function = "%s.%s;" % [_library_initialization_var, _library_update_function]
+				_library_function = str(_library_initialization_var + "." + _library_update_function)
+				_library_print = "Serial.println(\"\\n$p$\" + %s);" % [_library_function]
 
-		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_function)
+		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_print)
 		_loop_start_location.y += 1
 
 	_arduino_file.store_string(_compiled_code.get_text())

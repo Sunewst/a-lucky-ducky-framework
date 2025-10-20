@@ -40,5 +40,4 @@ offset_right = 42.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Hello World"
 horizontal_alignment = 1

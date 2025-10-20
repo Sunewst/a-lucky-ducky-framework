@@ -18,13 +18,15 @@ var popup: PopupHover
 
 func _ready() -> void:
 	add_child(board_model_scene)
-	
+	popup = PopupHover.create_new_popup()
+	popup.visible = false
 	for collision_shape in board_collision_shapes:
 		collision_shape.mouse_entered.connect(_on_static_body_3d_mouse_entered.bind(collision_shape.get_parent()))
 		collision_shape.mouse_exited.connect(_on_static_body_3d_mouse_exited.bind(collision_shape.get_parent()))
 	
 	#code_editor_node.symbol_hovered.connect(_on_symbol_hovered)
 	code_editor_node.focus_entered.connect(_on_text_hovered)
+	SerialController.SerialDataReceived.connect(_on_serial_data_received)
 
 
 #func _on_symbol_hovered(symbol: String, line: int, collumn: int):
@@ -32,7 +34,12 @@ func _ready() -> void:
 		#"stemma0":
 			#part_hovered = true
 			#stemma_port.material_overlay = material
-			
+
+func _on_serial_data_received(data: String) -> void:
+	if data.contains("$p"):
+		var _data_value = data.get_slice("$", 2)
+		popup.find_child("Label").text = _data_value
+
 
 func _on_text_hovered():
 	if part_hovered:
@@ -43,7 +50,7 @@ func _focus_entered():
 	print("Hovered")
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
-	popup = PopupHover.create_new_popup()
+	popup.visible = true
 	mesh.material_overlay = material
 	popup.get_child(0).set_position(get_viewport().get_mouse_position())
 	add_child(popup)
@@ -51,8 +58,8 @@ func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
 
 func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	mesh.material_overlay = null
-	popup.queue_free()
-	
+	popup.visible = false
 
 func _on_code_editor_board_changed(_new_board) -> void:
 	pass
+	

@@ -131,8 +131,20 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 			_compiled_code.insert_line_at(_compiled_code.get_line_count() - 1, _current_line)
 	
 	for library in _libraries_added:
-		var _library_update_function
-		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_update_function)
+		var _library_update_function: String
+		var _library_function: String
+
+		for available_library in arduino_libraries:
+			if available_library.library_name.contains(library):
+				var _library_initialization_var: String
+				var _initialization_location = code_editor.search(available_library.library_name.get_slice(".", 0), 4, 0, 0)
+
+				_library_update_function = available_library.library_update_function
+				_library_initialization_var = code_editor.get_line(_initialization_location.y).get_slice(" ", 1).replace(";", "")
+
+				_library_function = "%s.%s;" % [_library_initialization_var, _library_update_function]
+
+		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_function)
 		_loop_start_location.y += 1
 
 	_arduino_file.store_string(_compiled_code.get_text())
@@ -265,7 +277,7 @@ func mark_libraries():
 		for location in _library_locations:
 			code_editor.set_line_gutter_text(location.y, GUTTER, '#')
 			code_editor.set_line_gutter_item_color(location.y, GUTTER, Color(0.232, 0.73, 0.207, 1.0))
-			_libraries_added.append(code_editor.get_line(location.y))
+			_libraries_added.append(code_editor.get_line(location.y).get_slice("\"", 1))
 
 
 func _add_main_gutter():

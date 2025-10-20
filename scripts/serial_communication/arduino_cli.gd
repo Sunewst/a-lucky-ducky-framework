@@ -23,12 +23,20 @@ func _arduino_cli_execute(cli_arguments: Array[String]):
 	var _path: String
 	var _output: Array[String] = []
 
+	## @experimental
+	if cli_arguments.has("--upload"):
+		SerialController._ClosePort()
+
 	if OS.get_name().contains("mac"):
 		_path = ProjectSettings.globalize_path("res://cli/arduino-cli")
 	else:
 		_path = ProjectSettings.globalize_path("res://cli/arduino-cli.exe")
 
 	OS.execute(_path, cli_arguments, _output, true, false)
+
+	## @experimental
+	if cli_arguments.has("--upload"):
+		SerialController._ClosePort()
 
 	if _output[0].contains("Error"):
 		call_deferred("emit_signal", "compiling_finished", _output[0], false)

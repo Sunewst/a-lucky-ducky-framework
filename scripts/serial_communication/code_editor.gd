@@ -5,7 +5,7 @@ signal board_changed
 signal line_edited
 
 @onready var code_editor: CodeEdit = %CodeEdit
-@onready var current_board: String = boards_info[1].board_FQBN
+@onready var current_board: String = boards_info[3].board_FQBN
 
 @export_group("Boards")
 @export var default_code_completion_canadits: code_completion_resource
@@ -58,13 +58,14 @@ var _unique_highlighting_keywords: Dictionary = {
 
 
 func _ready() -> void:
+
 	compile_arguments = ['compile', '--fqbn', current_board, ino_global_path]
 	upload_arguments = ['upload', '-p', SerialController.portName, '--fqbn', current_board, ino_global_path]
 
 	code_editor_menu = code_editor.get_menu()
 
-	for i in boards_info.size():
-		board_menu.add_item(boards_info[i].board_FQBN)
+	for board in boards_info:
+		board_menu.add_item(board.board_FQBN)
 
 	code_editor_menu.add_submenu_node_item("Boards", board_menu)
 
@@ -159,6 +160,7 @@ func _compiling_finished(cli_output: String, successful):
 	if successful:
 		print(cli_output)
 	else:
+		print(cli_output)
 		_highlight_errors(cli_output)
 
 

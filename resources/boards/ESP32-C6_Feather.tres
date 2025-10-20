@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="board_resource" load_steps=2 format=3 uid="uid://dk6ttd5b555tv"]
+
+[ext_resource type="Script" uid="uid://4as1lu3lsvt8" path="res://resources/boards/board_resource.gd" id="1_s7enj"]
+
+[resource]
+script = ExtResource("1_s7enj")
+board_name = "Adafruit ESP32-C6 Feather"
+board_FQBN = "esp32:esp32:adafruit_feather_esp32c6"
+board_core = "esp32"
+board_author = "Adafruit"
+metadata/_custom_type_script = "uid://4as1lu3lsvt8"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://3rxmiqb15771"]
+[gd_scene load_steps=20 format=3 uid="uid://3rxmiqb15771"]
 
 [ext_resource type="Script" uid="uid://bgtgv8c7khc0k" path="res://scripts/world/camera_controls.gd" id="1_4h7al"]
 [ext_resource type="Script" uid="uid://crviwgj8ijc24" path="res://scripts/world/pond.gd" id="1_sgue5"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://4as1lu3lsvt8" path="res://resources/boards/board_resource.gd" id="7_n8bwo"]
 [ext_resource type="Resource" uid="uid://cqwrnue4ejuti" path="res://resources/boards/arduino_uno.tres" id="8_bpkyh"]
 [ext_resource type="Resource" uid="uid://6k38vih27ib6" path="res://resources/boards/rp2040_trinkey.tres" id="9_vud12"]
+[ext_resource type="Resource" uid="uid://dk6ttd5b555tv" path="res://resources/boards/ESP32-C6_Feather.tres" id="10_n8bwo"]
 [ext_resource type="Resource" uid="uid://m2dk08ne2po" path="res://resources/boards/garden_board.tres" id="10_p8mmv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7vlfm"]
@@ -220,7 +221,7 @@ extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_yjqe1")
 
 [node name="CodeEditor" parent="." instance=ExtResource("3_go7bl")]
-boards_info = Array[ExtResource("7_n8bwo")]([ExtResource("8_bpkyh"), ExtResource("9_vud12"), ExtResource("10_p8mmv")])
+boards_info = Array[ExtResource("7_n8bwo")]([ExtResource("8_bpkyh"), ExtResource("9_vud12"), ExtResource("10_p8mmv"), ExtResource("10_n8bwo")])
 
 [connection signal="board_changed" from="CodeEditor" to="." method="_on_code_editor_board_changed"]
 [connection signal="currently_typing" from="CodeEditor" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_editor_currently_typing"]

@@ -20,6 +20,8 @@ func _ready() -> void:
 	add_child(board_model_scene)
 	popup = PopupHover.create_new_popup()
 	popup.visible = false
+	add_child(popup)
+
 	for collision_shape in board_collision_shapes:
 		collision_shape.mouse_entered.connect(_on_static_body_3d_mouse_entered.bind(collision_shape.get_parent()))
 		collision_shape.mouse_exited.connect(_on_static_body_3d_mouse_exited.bind(collision_shape.get_parent()))
@@ -53,7 +55,6 @@ func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
 	popup.visible = true
 	mesh.material_overlay = material
 	popup.get_child(0).set_position(get_viewport().get_mouse_position())
-	add_child(popup)
 
 
 func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:

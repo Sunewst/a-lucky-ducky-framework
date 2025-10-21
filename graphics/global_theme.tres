@@ -1,7 +1,37 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://etxhywncatso"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://etxhywncatso"]
 
 [ext_resource type="FontFile" uid="uid://bu2y6rrhr31rx" path="res://graphics/fonts/JetBrainsMonoNL-Regular.ttf" id="1_kwb7i"]
 [ext_resource type="Texture2D" uid="uid://0a8gtwqx2ly1" path="res://graphics/icon.svg" id="2_677li"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vumiq"]
+bg_color = Color(0.13915244, 0.17232907, 0.2154552, 1)
+border_width_top = 5
+border_color = Color(0.045224532, 0.20006171, 0.3627287, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ntp5t"]
+bg_color = Color(0.08441248, 0.11011233, 0.14095378, 1)
+border_width_top = 5
+border_color = Color(0.045224532, 0.20006171, 0.3627287, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nhx6p"]
+bg_color = Color(0.13725491, 0.17254902, 0.21568628, 1)
+border_width_top = 5
+border_color = Color(0.22985634, 0.48834413, 0.29600987, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_677li"]
 bg_color = Color(0.234968, 0.246006, 0.26721, 0.658824)
@@ -11,6 +41,9 @@ bg_color = Color(0.0386748, 0.0606196, 0.139953, 0.407843)
 
 [resource]
 default_font = ExtResource("1_kwb7i")
+Button/styles/hover = SubResource("StyleBoxFlat_vumiq")
+Button/styles/normal = SubResource("StyleBoxFlat_ntp5t")
+Button/styles/pressed = SubResource("StyleBoxFlat_nhx6p")
 CodeEdit/colors/background_color = Color(0.000470945, 0.00988705, 0.0178907, 1)
 CodeEdit/colors/caret_color = Color(0.926832, 0.861473, 0.981657, 0.74902)
 CodeEdit/colors/current_line_color = Color(0.364706, 0.654902, 0.364706, 1)

@@ -25,8 +25,7 @@ func _ready() -> void:
 	for collision_shape in board_collision_shapes:
 		collision_shape.mouse_entered.connect(_on_static_body_3d_mouse_entered.bind(collision_shape.get_parent()))
 		collision_shape.mouse_exited.connect(_on_static_body_3d_mouse_exited.bind(collision_shape.get_parent()))
-		print(collision_shape)
-	
+
 	#code_editor_node.symbol_hovered.connect(_on_symbol_hovered)
 	code_editor_node.focus_entered.connect(_on_text_hovered)
 	SerialController.SerialDataReceived.connect(_on_serial_data_received)

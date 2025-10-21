@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dslqow5i7m72l"]
+[gd_scene load_steps=4 format=3 uid="uid://dslqow5i7m72l"]
 
 [ext_resource type="Script" uid="uid://0nbaxhwh0017" path="res://scripts/world/popup_hover.gd" id="1_47put"]
+[ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="2_begrx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7b53x"]
+bg_color = Color(0.07046216, 0.11383041, 0.06730943, 0.5803922)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.5810325, 0.58103305, 0.58103275, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 20
 
 [node name="PopupNode" type="Control"]
 layout_mode = 3
@@ -26,6 +40,7 @@ offset_right = 60.5
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7b53x")
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 1
@@ -40,4 +55,5 @@ offset_right = 42.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_begrx")
 horizontal_alignment = 1

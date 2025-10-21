@@ -156,6 +156,7 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 
 	_compiled_code.queue_free()
 
+
 func _compiling_finished(cli_output: String, successful):
 	if successful:
 		print(cli_output)
@@ -288,6 +289,7 @@ func mark_libraries():
 				_libraries_added.append(library_name.get_slice("\"", 1))
 			else:
 				_libraries_added.append(library_name.get_slice("<", 1).replace(">", ""))
+
 
 func _add_main_gutter():
 	code_editor.add_gutter(GUTTER)

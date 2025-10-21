@@ -44,6 +44,7 @@ var _ignore_keywords: Array[String] = [
 	"switch ",
 	"for ",
 	"if ",
+	"unsigned",
 	"while ",
 	"else if ",
 	"default ",
@@ -58,6 +59,8 @@ var _unique_highlighting_keywords: Dictionary = {
 
 
 func _ready() -> void:
+	for library in arduino_libraries:
+		print(library.library_name)
 
 	compile_arguments = ['compile', '--fqbn', current_board, ino_global_path]
 	upload_arguments = ['upload', '-p', SerialController.portName, '--fqbn', current_board, ino_global_path]
@@ -108,7 +111,7 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	var _compiled_code = CodeEdit.new()
 	var _current_line: String
 	var _arduino_file: FileAccess = FileAccess.open(INO_USER_PATH, FileAccess.WRITE)
-	var _loop_start_location: Vector2i = _get_loop_location()
+	#var _loop_start_location: Vector2i = _get_loop_location()
 
 	if not DirAccess.dir_exists_absolute("user://Nest"):
 		DirAccess.make_dir_absolute("user://Nest")
@@ -134,13 +137,14 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	for library in _libraries_added:
 		var _library_update_function: String
 		var _library_print: String
-
+		var _loop_start_location: Vector2i = _get_loop_location(_compiled_code)
 
 		for available_library in arduino_libraries:
 			if available_library.library_name.contains(library):
+				var _library_location: Array[Vector2i] = find_total_occurrences(available_library.library_name)
 				var _library_initialization_var: String
 				var _library_function: String
-				var _initialization_location = code_editor.search(available_library.library_name.get_slice(".", 0), 4, 0, 0)
+				var _initialization_location = code_editor.search(available_library.library_name.get_slice(".", 0), 2, _library_location[0].y + 1, 0)
 
 				_library_update_function = available_library.library_update_function
 				_library_initialization_var = code_editor.get_line(_initialization_location.y).get_slice(" ", 1).replace(";", "")
@@ -148,8 +152,8 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 				_library_function = str(_library_initialization_var + "." + _library_update_function)
 				_library_print = "Serial.println(\"\\n$p$\" + %s);" % [_library_function]
 
-		_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_print)
-		_loop_start_location.y += 1
+				_compiled_code.insert_line_at(_loop_start_location.y + 1, _library_print)
+				_loop_start_location.y += 1
 
 	_arduino_file.store_string(_compiled_code.get_text())
 	ArduinoCli.execute_arduino_cli(cli_arguments)
@@ -267,7 +271,7 @@ func find_total_occurrences(text: String) -> Array[Vector2i]:
 
 
 func mark_loop() -> void:
-	var _loop_start_location: Vector2i = _get_loop_location()
+	var _loop_start_location: Vector2i = _get_loop_location(code_editor)
 
 	if _loop_start_location != Vector2i(-1, -1):
 		code_editor.set_line_gutter_text(_loop_start_location[1], GUTTER, 'L')
@@ -278,12 +282,18 @@ func mark_loop() -> void:
 func mark_libraries():
 	var _library_locations: Array[Vector2i] = find_total_occurrences("#include ")
 	_libraries_added.clear()
+
+	print(_library_locations)
 	if not _library_locations.is_empty():
 		for location in _library_locations:
+			var library_name = code_editor.get_line(location.y)
 			code_editor.set_line_gutter_text(location.y, GUTTER, '#')
 			code_editor.set_line_gutter_item_color(location.y, GUTTER, Color(0.232, 0.73, 0.207, 1.0))
-			_libraries_added.append(code_editor.get_line(location.y).get_slice("\"", 1))
-
+			if library_name.contains("\""):
+				_libraries_added.append(library_name.get_slice("\"", 1))
+			else:
+				_libraries_added.append(library_name.get_slice("<", 1).replace(">", ""))
+	print(_libraries_added)
 
 func _add_main_gutter():
 	code_editor.add_gutter(GUTTER)
@@ -295,8 +305,8 @@ func _redraw_gutter():
 	_add_main_gutter()
 
 
-func _get_loop_location() -> Vector2i:
-	return code_editor.search("Void loop()", 2, 0, 0)
+func _get_loop_location(editor: CodeEdit) -> Vector2i:
+	return editor.search("Void loop()", 2, 0, 0)
 
 
 func _on_code_edit_gutter_clicked(line: int, gutter: int) -> void:

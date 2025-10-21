@@ -40,13 +40,13 @@ var _ignore_keywords: Array[String] = [
 	"{",
 	"}",
 	"#include ",
-	"case ",
-	"switch ",
-	"for ",
-	"if ",
+	"case",
+	"switch",
+	"for",
+	"if",
 	"unsigned",
-	"while ",
-	"else if ",
+	"while",
+	"else if",
 	"default ",
 	"int ",
 	"default:",
@@ -59,9 +59,6 @@ var _unique_highlighting_keywords: Dictionary = {
 
 
 func _ready() -> void:
-	for library in arduino_libraries:
-		print(library.library_name)
-
 	compile_arguments = ['compile', '--fqbn', current_board, ino_global_path]
 	upload_arguments = ['upload', '-p', SerialController.portName, '--fqbn', current_board, ino_global_path]
 
@@ -111,7 +108,6 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	var _compiled_code = CodeEdit.new()
 	var _current_line: String
 	var _arduino_file: FileAccess = FileAccess.open(INO_USER_PATH, FileAccess.WRITE)
-	#var _loop_start_location: Vector2i = _get_loop_location()
 
 	if not DirAccess.dir_exists_absolute("user://Nest"):
 		DirAccess.make_dir_absolute("user://Nest")
@@ -283,7 +279,6 @@ func mark_libraries():
 	var _library_locations: Array[Vector2i] = find_total_occurrences("#include ")
 	_libraries_added.clear()
 
-	print(_library_locations)
 	if not _library_locations.is_empty():
 		for location in _library_locations:
 			var library_name = code_editor.get_line(location.y)
@@ -293,7 +288,6 @@ func mark_libraries():
 				_libraries_added.append(library_name.get_slice("\"", 1))
 			else:
 				_libraries_added.append(library_name.get_slice("<", 1).replace(">", ""))
-	print(_libraries_added)
 
 func _add_main_gutter():
 	code_editor.add_gutter(GUTTER)

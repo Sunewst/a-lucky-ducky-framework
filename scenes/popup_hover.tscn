@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="2_begrx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7b53x"]
-bg_color = Color(0.07046216, 0.11383041, 0.06730943, 0.5803922)
+bg_color = Color(0.07058824, 0.050980393, 0.06666667, 0.5803922)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5

@@ -2,7 +2,7 @@ extends Control
 
 signal currently_typing
 signal board_changed
-signal line_edited
+signal finished_editing
 
 @onready var code_editor: CodeEdit = %CodeEdit
 @onready var current_board: String = boards_info[3].board_FQBN
@@ -318,7 +318,7 @@ func _on_code_edit_text_changed() -> void:
 
 
 func finished_typing() -> void:
-	emit_signal("line_edited")
+	emit_signal("finished_editing")
 
 	_redraw_gutter()
 	mark_libraries()

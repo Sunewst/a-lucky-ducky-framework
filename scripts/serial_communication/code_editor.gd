@@ -60,7 +60,7 @@ var _unique_highlighting_keywords: Dictionary = {
 
 func _ready() -> void:
 	compile_arguments = ['compile', '--fqbn', current_board, ino_global_path]
-	upload_arguments = ['upload', '-p', SerialController.portName, '--fqbn', current_board, ino_global_path]
+	upload_arguments = ['upload', '-p', SerialController._GetPort(), '--fqbn', current_board, ino_global_path]
 
 	code_editor_menu = code_editor.get_menu()
 
@@ -189,6 +189,7 @@ func _on_compile_pressed() -> void:
 
 
 func _on_upload_pressed() -> void:
+	upload_arguments[2] = SerialController._GetPort()
 	_compile_code(code_editor, upload_arguments)
 
 

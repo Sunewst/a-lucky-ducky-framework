@@ -14,4 +14,4 @@ Alongside these features are also compiling and uploading to the microcontroller
 
 >>>
 # Current Focus
-My main focus is to finish up the remaining basic features and fix any edge cases or bugs that show up. Afterwards, I will add the Garden Microcontroller specific features, Like the ESP32 NOW visulaizer support, and add specific support for any Arduino libraries that could be used for garden/plant monitoring and automation.
+My main focus is to finish up the remaining basic features and fix any edge cases or bugs that show up. Afterwards, I will add the Garden Microcontroller specific features, Like the ESP32 NOW visualizer support, and add specific support for any Arduino libraries that could be used for garden/plant monitoring and automation.

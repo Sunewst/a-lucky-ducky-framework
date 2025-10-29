@@ -60,7 +60,3 @@ func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
 func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	mesh.material_overlay = null
 	popup.visible = false
-
-func _on_code_editor_board_changed(_new_board) -> void:
-	pass
-	

@@ -2,11 +2,11 @@
 
 [ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="1_i4sis"]
 [ext_resource type="Script" uid="uid://bk571ij27ski5" path="res://resources/core/code_completion_resource.gd" id="2_037gb"]
-[ext_resource type="Script" uid="uid://c8facwd4t0bu3" path="res://scripts/serial_communication/code_editor.gd" id="2_xqpb2"]
+[ext_resource type="Script" uid="uid://c8facwd4t0bu3" path="res://scripts/editor/code_editor.gd" id="2_xqpb2"]
 [ext_resource type="Resource" uid="uid://cn38a3o2u65yq" path="res://resources/core/default_canadits.tres" id="2_y6fiy"]
-[ext_resource type="Script" uid="uid://bbxla4qvxkyl2" path="res://scripts/serial_communication/port_list.gd" id="4_cctyv"]
+[ext_resource type="Script" uid="uid://bbxla4qvxkyl2" path="res://scripts/editor/port_list.gd" id="4_cctyv"]
 [ext_resource type="FontFile" uid="uid://bu2y6rrhr31rx" path="res://graphics/fonts/JetBrainsMonoNL-Regular.ttf" id="4_ys1v0"]
-[ext_resource type="Script" uid="uid://ey5u33d4lbc3" path="res://scripts/serial_communication/serial_monitor.gd" id="10_yxof0"]
+[ext_resource type="Script" uid="uid://ey5u33d4lbc3" path="res://scripts/editor/serial_monitor.gd" id="10_yxof0"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_cctyv"]
 number_color = Color(0.933333, 0.913725, 0.541176, 1)

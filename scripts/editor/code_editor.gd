@@ -157,7 +157,7 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	_compiled_code.queue_free()
 
 
-func _compiling_finished(cli_output: String, successful):
+func _compiling_finished(cli_output: String, successful: bool):
 	if successful:
 		print(cli_output)
 	else:

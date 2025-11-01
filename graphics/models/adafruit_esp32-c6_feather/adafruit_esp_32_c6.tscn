@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://dw1cfsx51q2uc"]
 
-[ext_resource type="PackedScene" uid="uid://cdk8xup7stug6" path="res://graphics/models/adafruit_esp32-c6_feather/adafruit_esp32-c6_feather.gltf" id="1_43lk4"]
+[ext_resource type="PackedScene" uid="uid://cdk8xup7stug6" path="res://graphics/models/adafruit_esp32-c6_feather/adafruit_esp32-c6_feather.gltf" id="1_03bf7"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_43lk4"]
 data = PackedVector3Array(0.1094, 0.0625, -0.0625, 0.1094, -0.0625, 0.0625, 0.1094, 0.0625, 0.0625, 0.1094, 0.0625, -0.0625, 0.1094, -0.0625, -0.0625, 0.1094, -0.0625, 0.0625, -0.1094, -0.0625, 0.0625, -0.1094, 0.0625, -0.0625, -0.1094, 0.0625, 0.0625, -0.1094, -0.0625, 0.0625, -0.1094, -0.0625, -0.0625, -0.1094, 0.0625, -0.0625, -0.1094, 0.0625, 0.0625, 0.1094, 0.0625, -0.0625, 0.1094, 0.0625, 0.0625, -0.1094, 0.0625, 0.0625, -0.1094, 0.0625, -0.0625, 0.1094, 0.0625, -0.0625, 0.1094, -0.0625, -0.0625, -0.1094, -0.0625, 0.0625, 0.1094, -0.0625, 0.0625, 0.1094, -0.0625, -0.0625, -0.1094, -0.0625, -0.0625, -0.1094, -0.0625, 0.0625, 0.1094, -0.0625, 0.0625, -0.1094, 0.0625, 0.0625, 0.1094, 0.0625, 0.0625, 0.1094, -0.0625, 0.0625, -0.1094, -0.0625, 0.0625, -0.1094, 0.0625, 0.0625, -0.1094, 0.0625, -0.0625, 0.1094, -0.0625, -0.0625, 0.1094, 0.0625, -0.0625, -0.1094, 0.0625, -0.0625, -0.1094, -0.0625, -0.0625, 0.1094, -0.0625, -0.0625)
 
-[node name="Adafruit_esp32-c6" instance=ExtResource("1_43lk4")]
+[node name="Adafruit_esp32-c6" instance=ExtResource("1_03bf7")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="main_components/stemma0" index="0"]
 

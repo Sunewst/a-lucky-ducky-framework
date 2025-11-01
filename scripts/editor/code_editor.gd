@@ -194,11 +194,11 @@ func _on_upload_pressed() -> void:
 
 
 func _on_code_edit_focus_entered() -> void:
-	emit_signal("currently_typing", true)
+	currently_typing.emit(true)
 
 
 func _on_code_edit_focus_exited() -> void:
-	emit_signal("currently_typing", false)
+	currently_typing.emit(false)
 
 
 func code_request_code_completion() -> void:
@@ -246,10 +246,11 @@ func _on_board_clicked(id: int) -> void:
 
 	compile_arguments[2] = current_board
 	upload_arguments[4] = current_board
-
-	board_changed.emit(current_board)
-
 	print("Changed board to ", current_board)
+	
+	board_changed.emit(boards_info[id])
+
+
 
 
 func find_total_occurrences(text: String) -> Array[Vector2i]:

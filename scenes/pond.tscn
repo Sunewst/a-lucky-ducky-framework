@@ -28,7 +28,7 @@ sky_material = SubResource("ProceduralSkyMaterial_hvmvx")
 [sub_resource type="Environment" id="Environment_yjqe1"]
 background_mode = 1
 background_color = Color(0.0562916, 0.0562916, 0.0562915, 1)
-background_energy_multiplier = 0.5
+background_energy_multiplier = 16.0
 sky = SubResource("Sky_go7bl")
 tonemap_mode = 2
 tonemap_exposure = 0.7

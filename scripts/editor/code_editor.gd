@@ -1,4 +1,4 @@
-extends Control
+class_name CodeEditor extends Control
 
 signal currently_typing
 signal board_changed
@@ -251,8 +251,6 @@ func _on_board_clicked(id: int) -> void:
 	board_changed.emit(boards_info[id])
 
 
-
-
 func find_total_occurrences(text: String) -> Array[Vector2i]:
 	var _occurences_locations: Array[Vector2i]
 	var _current_line: Vector2i = Vector2i(0, 0)
@@ -320,12 +318,12 @@ func _on_code_edit_text_changed() -> void:
 
 
 func finished_typing() -> void:
-	emit_signal("finished_editing")
-
 	_redraw_gutter()
 	mark_libraries()
 	mark_loop()
 	code_editor.set_gutter_draw(GUTTER, true)
+
+	emit_signal("finished_editing")
 
 
 func _exit_tree() -> void:

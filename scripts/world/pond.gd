@@ -9,7 +9,8 @@ var board_collision_shapes
 #@onready var stemma_port: MeshInstance3D = board_model_scene.find_child("stemma0")
 
 @onready var dynamic_parts: Resource = preload("res://resources/boards/ESP32-C6_Feather.tres")
-@onready var code_editor_node: CodeEdit = find_child("CodeEdit")
+@onready var code_edtior: = $CodeEditor
+@onready var code_edit_node: CodeEdit = find_child("CodeEdit")
 
 var part_hovered: bool
 
@@ -25,7 +26,9 @@ func _ready() -> void:
 
 	#code_editor_node.symbol_hovered.connect(_on_symbol_hovered)
 	#code_editor_node.focus_entered.connect(_on_text_hovered)
+	code_edtior.finished_editing.connect(_text_changed)
 	SerialController.SerialDataReceived.connect(_on_serial_data_received)
+	
 
 
 func add_board(board: board_resource):
@@ -56,6 +59,10 @@ func _on_serial_data_received(data: String) -> void:
 	#if part_hovered:
 		#stemma_port.material_overlay = null
 		#part_hovered = false
+
+
+func _text_changed():
+	pass
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:

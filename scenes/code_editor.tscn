@@ -49,6 +49,7 @@ layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 509.0
+offset_bottom = -9.0
 grow_vertical = 2
 theme = ExtResource("1_i4sis")
 text = "#include \"Adafruit_seesaw.h\"
@@ -100,9 +101,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -59.5
-offset_right = 59.5
-offset_bottom = 33.0
+offset_left = -60.0
+offset_right = 60.0
+offset_bottom = 30.0
 grow_horizontal = 2
 text = "Compile Code"
 
@@ -114,9 +115,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -59.5
-offset_top = -33.0
-offset_right = 59.5
+offset_left = -60.0
+offset_top = -30.0
+offset_right = 60.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Upload"
@@ -144,14 +145,13 @@ offset_top = -117.0
 offset_bottom = 117.0
 grow_horizontal = 0
 grow_vertical = 2
-folded = true
 title = "Serial Monitor"
 
 [node name="SerialMonitor" type="RichTextLabel" parent="FoldableContainer"]
-visible = false
 layout_mode = 2
 mouse_filter = 2
 theme = ExtResource("1_i4sis")
+scroll_following = true
 script = ExtResource("10_yxof0")
 
 [connection signal="focus_entered" from="CodeEdit" to="." method="_on_code_edit_focus_entered"]

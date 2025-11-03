@@ -253,15 +253,16 @@ func _on_board_clicked(id: int) -> void:
 
 func find_total_occurrences(text: String) -> Array[Vector2i]:
 	var _occurences_locations: Array[Vector2i]
-	var _current_line: Vector2i = Vector2i(0, 0)
-	var _occurence
+	var _current_line_location: Vector2i = Vector2i(0, 0)
+	var _occurence: Vector2i
 
 	for i in code_editor.get_line_count():
-		_occurence = code_editor.search(text, 2, _current_line.y + 1, 0)
+		_occurence = code_editor.search(text, 2, _current_line_location.y + 1, 0)
+		var _current_line = code_editor.get_line(_occurence.y).get_slice("//", 0).strip_edges()
 
-		if _occurence.y != -1 and _occurence not in _occurences_locations:
+		if _occurence.y != -1 and _occurence not in _occurences_locations and not _current_line.is_empty():
 			_occurences_locations.append(_occurence)
-			_current_line = _occurence
+			_current_line_location = _occurence
 		else:
 			break
 	return _occurences_locations
@@ -282,7 +283,8 @@ func mark_libraries():
 
 	if not _library_locations.is_empty():
 		for location in _library_locations:
-			var library_name = code_editor.get_line(location.y)
+			var library_name: String = code_editor.get_line(location.y)
+
 			code_editor.set_line_gutter_text(location.y, GUTTER, '#')
 			code_editor.set_line_gutter_item_color(location.y, GUTTER, Color(0.232, 0.73, 0.207, 1.0))
 			if library_name.contains("\""):

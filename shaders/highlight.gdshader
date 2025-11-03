@@ -3,8 +3,9 @@ shader_type spatial;
 render_mode unshaded, depth_prepass_alpha;
 
 void fragment() {
-	ALBEDO.rb = vec2(0.0);
+	ALBEDO.r = 1.0;
 	ALBEDO.g = 1.0;
+	ALBEDO.b = 0.1;
 	float mask1 = sin((UV.y - TIME) * 4.0) * 0.2 + 0.6;
 	float mask2 = sin((SCREEN_UV.x - TIME) * 30.0) * 0.2 + 0.8;
 	float scanlines_factor = pow((sin((SCREEN_UV.y - TIME / 15.0) * 150.0) * 0.5 + 0.5), 2.5) * mask1 * mask2;

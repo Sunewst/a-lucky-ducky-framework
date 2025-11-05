@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://3rxmiqb15771"]
 
-[ext_resource type="Script" uid="uid://crviwgj8ijc24" path="res://scripts/world/pond.gd" id="1_4hpwl"]
+[ext_resource type="Script" uid="uid://crviwgj8ijc24" path="res://scripts/world/duck.gd" id="1_4hpwl"]
 [ext_resource type="Shader" uid="uid://sl7rygw7j1bj" path="res://shaders/highlight.gdshader" id="2_83675"]
 [ext_resource type="Resource" uid="uid://dk6ttd5b555tv" path="res://resources/boards/ESP32-C6_Feather.tres" id="3_t4sxs"]
 [ext_resource type="Shader" uid="uid://bu32bxcuo17mi" path="res://shaders/grid.gdshader" id="4_7o3gr"]

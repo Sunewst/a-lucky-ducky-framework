@@ -1,22 +1,22 @@
 [gd_scene load_steps=23 format=3 uid="uid://3rxmiqb15771"]
 
-[ext_resource type="Script" uid="uid://bgtgv8c7khc0k" path="res://scripts/world/camera_controls.gd" id="1_4h7al"]
-[ext_resource type="Script" uid="uid://crviwgj8ijc24" path="res://scripts/world/pond.gd" id="1_sgue5"]
-[ext_resource type="Shader" uid="uid://bu32bxcuo17mi" path="res://shaders/grid.gdshader" id="2_hvmvx"]
-[ext_resource type="Shader" uid="uid://sl7rygw7j1bj" path="res://shaders/highlight.gdshader" id="2_jryt2"]
-[ext_resource type="PackedScene" uid="uid://ci3ugvvfqe1qy" path="res://scenes/code_editor.tscn" id="3_go7bl"]
-[ext_resource type="Script" uid="uid://4as1lu3lsvt8" path="res://resources/boards/board_resource.gd" id="7_n8bwo"]
-[ext_resource type="Resource" uid="uid://cqwrnue4ejuti" path="res://resources/boards/arduino_uno.tres" id="8_bpkyh"]
-[ext_resource type="Resource" uid="uid://6k38vih27ib6" path="res://resources/boards/rp2040_trinkey.tres" id="9_vud12"]
-[ext_resource type="Resource" uid="uid://dk6ttd5b555tv" path="res://resources/boards/ESP32-C6_Feather.tres" id="10_n8bwo"]
-[ext_resource type="Resource" uid="uid://m2dk08ne2po" path="res://resources/boards/garden_board.tres" id="10_p8mmv"]
-[ext_resource type="Script" uid="uid://c4be3xx8423x7" path="res://resources/libraries/library_resource.gd" id="11_p8mmv"]
-[ext_resource type="Resource" uid="uid://5ag2vqabsr2o" path="res://resources/libraries/adafruit_soil_sensor.tres" id="12_n5hp7"]
-[ext_resource type="Resource" uid="uid://cmusypac6jfvu" path="res://resources/libraries/adafruit_BME280.tres" id="13_43sjr"]
+[ext_resource type="Script" uid="uid://crviwgj8ijc24" path="res://scripts/world/pond.gd" id="1_4hpwl"]
+[ext_resource type="Shader" uid="uid://sl7rygw7j1bj" path="res://shaders/highlight.gdshader" id="2_83675"]
+[ext_resource type="Resource" uid="uid://dk6ttd5b555tv" path="res://resources/boards/ESP32-C6_Feather.tres" id="3_t4sxs"]
+[ext_resource type="Shader" uid="uid://bu32bxcuo17mi" path="res://shaders/grid.gdshader" id="4_7o3gr"]
+[ext_resource type="Script" uid="uid://bgtgv8c7khc0k" path="res://scripts/world/camera_controls.gd" id="5_srci5"]
+[ext_resource type="PackedScene" uid="uid://ci3ugvvfqe1qy" path="res://scenes/code_editor.tscn" id="6_gsrkv"]
+[ext_resource type="Script" uid="uid://4as1lu3lsvt8" path="res://resources/boards/board_resource.gd" id="7_jeaup"]
+[ext_resource type="Resource" uid="uid://cqwrnue4ejuti" path="res://resources/boards/arduino_uno.tres" id="8_dbv0r"]
+[ext_resource type="Resource" uid="uid://6k38vih27ib6" path="res://resources/boards/rp2040_trinkey.tres" id="9_hxxp2"]
+[ext_resource type="Resource" uid="uid://m2dk08ne2po" path="res://resources/boards/garden_board.tres" id="10_h31it"]
+[ext_resource type="Script" uid="uid://c4be3xx8423x7" path="res://resources/libraries/library_resource.gd" id="11_238ab"]
+[ext_resource type="Resource" uid="uid://cmusypac6jfvu" path="res://resources/libraries/adafruit_BME280.tres" id="12_vcig1"]
+[ext_resource type="Resource" uid="uid://5ag2vqabsr2o" path="res://resources/libraries/adafruit_soil_sensor.tres" id="13_3qsp8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7vlfm"]
 render_priority = 0
-shader = ExtResource("2_jryt2")
+shader = ExtResource("2_83675")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_hvmvx"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -37,7 +37,7 @@ fog_light_energy = 0.05
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yjqe1"]
 render_priority = 0
-shader = ExtResource("2_hvmvx")
+shader = ExtResource("4_7o3gr")
 shader_parameter/subdivisions = 32.0
 shader_parameter/grid_width = 0.02
 shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
@@ -171,10 +171,10 @@ material = SubResource("ShaderMaterial_go7bl")
 flip_faces = true
 size = Vector2(2, 2)
 
-[node name="Pond" type="Node3D"]
-script = ExtResource("1_sgue5")
+[node name="Duck" type="Node3D"]
+script = ExtResource("1_4hpwl")
 material = SubResource("ShaderMaterial_7vlfm")
-current_board = ExtResource("10_n8bwo")
+current_board = ExtResource("3_t4sxs")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -209,7 +209,7 @@ mesh = SubResource("BoxMesh_sgue5")
 
 [node name="CameraControl" type="Node3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(0.933198, -0.179681, 0.311216, 0, 0.866025, 0.5, -0.359362, -0.466599, 0.808173, -0.000476569, 0.46578, -0.423462)
-script = ExtResource("1_4h7al")
+script = ExtResource("5_srci5")
 snap = false
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport/CameraControl"]
@@ -224,9 +224,9 @@ transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.43998, 0
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_yjqe1")
 
-[node name="CodeEditor" parent="." instance=ExtResource("3_go7bl")]
-boards_info = Array[ExtResource("7_n8bwo")]([ExtResource("8_bpkyh"), ExtResource("9_vud12"), ExtResource("10_p8mmv"), ExtResource("10_n8bwo")])
-arduino_libraries = Array[ExtResource("11_p8mmv")]([ExtResource("13_43sjr"), ExtResource("12_n5hp7")])
+[node name="CodeEditor" parent="." instance=ExtResource("6_gsrkv")]
+boards_info = Array[ExtResource("7_jeaup")]([ExtResource("8_dbv0r"), ExtResource("9_hxxp2"), ExtResource("10_h31it"), ExtResource("3_t4sxs")])
+arduino_libraries = Array[ExtResource("11_238ab")]([ExtResource("12_vcig1"), ExtResource("13_3qsp8")])
 
 [connection signal="board_changed" from="CodeEditor" to="." method="_on_code_editor_board_changed"]
 [connection signal="currently_typing" from="CodeEditor" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_editor_currently_typing"]

@@ -275,6 +275,8 @@ func mark_loop() -> void:
 		code_editor.set_line_gutter_text(_loop_start_location[1], GUTTER, 'L')
 		code_editor.set_line_gutter_clickable(_loop_start_location[1], GUTTER, true)
 		code_editor.set_line_gutter_item_color(_loop_start_location[1], GUTTER, Color(0.909, 0.189, 0.475, 1.0))
+	else:
+		printerr("Failed to find loop function")
 
 
 func mark_libraries():

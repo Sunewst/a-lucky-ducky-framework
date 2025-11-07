@@ -4,6 +4,8 @@ extends Node3D
 @export var current_board: board_resource
 @export var divider_amount: int = 5
 
+@onready var code_editor: CodeEditor = $CodeEditor
+
 var board_model_scene: Node
 var boards: Array[Node3D]
 
@@ -14,6 +16,7 @@ var current_focused_mesh
 
 func _ready() -> void:
 	var x_muiltiplier: int = 0
+	code_editor.visible = false
 
 	for i in total_boards:
 		var board: Node = load(current_board.board_model).instantiate()
@@ -51,4 +54,4 @@ func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	
 	
 func load_board_duck():
-	print("Quack!")
+	code_editor.visible = true

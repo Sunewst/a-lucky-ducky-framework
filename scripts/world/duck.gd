@@ -1,4 +1,6 @@
-extends Node3D
+class_name Duck extends Node3D
+
+const DUCK_SCENE: PackedScene = preload("res://scenes/duck.tscn")
 
 @export var material: Material
 @export var current_board: board_resource
@@ -83,3 +85,8 @@ func _on_code_editor_board_changed(board: board_resource) -> void:
 	
 	remove_child(board_model_scene)
 	add_board(board)
+
+
+static func create_new_duck(_board_name: String):
+	var new_duck_scene: Duck = DUCK_SCENE.instantiate()
+	return new_duck_scene

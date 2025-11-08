@@ -223,4 +223,6 @@ visible = false
 boards_info = Array[ExtResource("6_l5ioj")]([ExtResource("7_n8bwo"), ExtResource("8_bpkyh"), ExtResource("9_vud12"), ExtResource("2_sgue5")])
 arduino_libraries = Array[ExtResource("10_p8mmv")]([ExtResource("11_n5hp7"), ExtResource("12_43sjr"), ExtResource("13_8c2ka")])
 
+[connection signal="hide_windows" from="." to="CodeEditor" method="editor_hidden"]
+[connection signal="show_windows" from="." to="CodeEditor" method="editor_visible"]
 [connection signal="currently_typing" from="CodeEditor" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_editor_currently_typing"]

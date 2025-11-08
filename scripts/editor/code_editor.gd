@@ -3,6 +3,9 @@ class_name CodeEditor extends Control
 signal currently_typing
 signal board_changed
 signal finished_editing
+#signal editor_visible
+#signal editor_hidden
+
 
 @onready var code_editor: CodeEdit = %CodeEdit
 @onready var current_board: String = boards_info[3].board_FQBN
@@ -17,10 +20,11 @@ signal finished_editing
 @export var debug_validity_messages: bool # If true, print out whether or not a line is 'Valid' 
 @export var debug_highlights: bool # If true, highlight when each line is executed
 
-var boards_unsaved_data: Array[String]
 
 const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .ino file
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
+
+var boards_unsaved_data: Array[String]
 
 const GUTTER: int = 2 # Main gutter
 
@@ -89,6 +93,10 @@ func _ready() -> void:
 
 	mark_loop()
 	mark_libraries()
+
+
+func _load_save_data(board_name: String):
+	print("Currently loading board named: ", board_name)
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -329,13 +337,16 @@ func finished_typing() -> void:
 	mark_loop()
 	code_editor.set_gutter_draw(GUTTER, true)
 
-	emit_signal("finished_editing")
+	finished_editing.emit()
 
 
-func store_unsaved_data():
+func editor_visible(board_name: String):
+	_load_save_data(board_name)
+	show()
+	#editor_visible.emit()
+
+
+func editor_hidden():
 	boards_unsaved_data.append(code_editor.get_text())
-
-
-func _exit_tree() -> void:
-	if not boards_unsaved_data.is_empty():
-		pass
+	hide()
+	#editor_closed.emit()

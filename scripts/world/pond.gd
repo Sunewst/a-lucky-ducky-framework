@@ -1,5 +1,8 @@
 extends Node3D
 
+signal show_windows
+signal hide_windows
+
 @export_range(1, 20, 1) var total_boards: int = 4
 @export var current_board: board_resource
 @export var divider_amount: int = 5
@@ -16,7 +19,6 @@ var current_focused_mesh
 
 func _ready() -> void:
 	var x_muiltiplier: int = 0
-	code_editor.visible = false
 
 	for i in total_boards:
 		var board: Node = load(current_board.board_model).instantiate()
@@ -38,10 +40,10 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click") and hovering:
-		show_board_editor()
+		show_windows.emit(current_focused_mesh)
 
 	if event.is_action_pressed("close_code_editor"):
-		close_board_editor()
+		hide_windows.emit()
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
@@ -54,12 +56,3 @@ func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	hovering = false
 	current_focused_mesh = null
 	print("No longer hovering over: ", mesh.owner.name)
-
-
-func show_board_editor():
-	code_editor.visible = true
-
-
-func close_board_editor():
-	code_editor.store_unsaved_data()
-	code_editor.visible = false

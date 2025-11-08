@@ -17,6 +17,8 @@ signal finished_editing
 @export var debug_validity_messages: bool # If true, print out whether or not a line is 'Valid' 
 @export var debug_highlights: bool # If true, highlight when each line is executed
 
+var boards_unsaved_data: Array[String]
+
 const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .ino file
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
 
@@ -330,5 +332,10 @@ func finished_typing() -> void:
 	emit_signal("finished_editing")
 
 
+func store_unsaved_data():
+	boards_unsaved_data.append(code_editor.get_text())
+
+
 func _exit_tree() -> void:
-	pass
+	if not boards_unsaved_data.is_empty():
+		pass

@@ -38,7 +38,10 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click") and hovering:
-		load_board_duck()
+		show_board_editor()
+
+	if event.is_action_pressed("close_code_editor"):
+		close_board_editor()
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
@@ -51,7 +54,12 @@ func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	hovering = false
 	current_focused_mesh = null
 	print("No longer hovering over: ", mesh.owner.name)
-	
-	
-func load_board_duck():
+
+
+func show_board_editor():
 	code_editor.visible = true
+
+
+func close_board_editor():
+	code_editor.store_unsaved_data()
+	code_editor.visible = false

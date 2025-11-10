@@ -95,8 +95,9 @@ func _ready() -> void:
 	mark_libraries()
 
 
-func _load_save_data(board_name: String):
-	print("Currently loading board named: ", board_name)
+func _load_save_data(save_name: String):
+	print("Currently loading save named: ", save_name)
+	
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -340,8 +341,8 @@ func finished_typing() -> void:
 	finished_editing.emit()
 
 
-func editor_visible(board_name: String):
-	_load_save_data(board_name)
+func editor_visible(save_name: String = current_board):
+	_load_save_data(save_name)
 	show()
 	#editor_visible.emit()
 

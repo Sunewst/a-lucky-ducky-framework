@@ -155,6 +155,11 @@ theme = ExtResource("1_i4sis")
 scroll_following = true
 script = ExtResource("10_yxof0")
 
+[node name="SaveName" type="Label" parent="FoldableContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("1_i4sis")
+
 [connection signal="focus_entered" from="CodeEdit" to="." method="_on_code_edit_focus_entered"]
 [connection signal="focus_exited" from="CodeEdit" to="." method="_on_code_edit_focus_exited"]
 [connection signal="gutter_clicked" from="CodeEdit" to="." method="_on_code_edit_gutter_clicked"]

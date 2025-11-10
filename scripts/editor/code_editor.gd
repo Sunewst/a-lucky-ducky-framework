@@ -3,15 +3,12 @@ class_name CodeEditor extends Control
 signal currently_typing
 signal board_changed
 signal finished_editing
-#signal editor_visible
-#signal editor_hidden
 
 
 @onready var code_editor: CodeEdit = %CodeEdit
 @onready var current_board: String = boards_info[3].board_FQBN
 
 @export_group("Boards")
-@export var default_code_completion_canadits: code_completion_resource
 @export var code_completion_canadits: Array[code_completion_resource]
 @export var boards_info: Array[board_resource]
 @export var arduino_libraries: Array[library_resource]
@@ -20,13 +17,12 @@ signal finished_editing
 @export var debug_validity_messages: bool # If true, print out whether or not a line is 'Valid' 
 @export var debug_highlights: bool # If true, highlight when each line is executed
 
-
+const GUTTER: int = 2 # Main gutter
 const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .ino file
+
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
 
 var boards_unsaved_data: Array[String]
-
-const GUTTER: int = 2 # Main gutter
 
 var compile_arguments: Array[String] # Main compile arguments used in the arduino-cli
 var upload_arguments: Array[String] # Main upload arguments used in the arduino-cli
@@ -344,10 +340,8 @@ func finished_typing() -> void:
 func editor_visible(save_name: String = current_board):
 	_load_save_data(save_name)
 	show()
-	#editor_visible.emit()
 
 
 func editor_hidden():
 	boards_unsaved_data.append(code_editor.get_text())
 	hide()
-	#editor_closed.emit()

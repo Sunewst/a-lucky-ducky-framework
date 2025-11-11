@@ -43,7 +43,8 @@ func _input(event: InputEvent) -> void:
 		show_windows.emit(current_focused_mesh)
 
 	if event.is_action_pressed("close_code_editor"):
-		hide_windows.emit()
+		hide_windows.emit(current_focused_mesh)
+		#SaveHandler.save_pond()
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
@@ -67,4 +68,4 @@ func save():
 	return save_dict
 
 func _exit_tree() -> void:
-	SaveHandler.save_flock()
+	SaveHandler.save_pond()

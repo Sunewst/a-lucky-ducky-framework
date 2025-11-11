@@ -23,7 +23,6 @@ const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .i
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
 
 var board_save_data: Dictionary
-var boards_unsaved_data: Array[String]
 
 var compile_arguments: Array[String] # Main compile arguments used in the arduino-cli
 var upload_arguments: Array[String] # Main upload arguments used in the arduino-cli
@@ -56,12 +55,15 @@ var _ignore_keywords: Array[String] = [
 	"Serial.begin",
 ]
 
+
 var _unique_highlighting_keywords: Dictionary = {
 	"delay": [Callable(self, "delay_highlighting")],
 }
 
 
 func _ready() -> void:
+	board_save_data = _load_save_data()
+
 	compile_arguments = ['compile', '--fqbn', current_board, ino_global_path]
 	upload_arguments = ['upload', '-p', SerialController._GetPort(), '--fqbn', current_board, ino_global_path]
 
@@ -93,11 +95,26 @@ func _ready() -> void:
 
 
 func _load_save_data():
-	var save_file = FileAccess.open("user://save_data//board.save", FileAccess.READ)
+	var _board_save_file = FileAccess.open("user://save_data//board.save", FileAccess.READ)
+	while _board_save_file.get_position() < _board_save_file.get_length():
+		var _json_string = _board_save_file.get_line()
+		var _json = JSON.new()
+
+		var _parse_result = _json.parse(_json_string)
+		if not _parse_result == OK:
+			print("JSON Parse Error: ", _json.get_error_message(), " in ", _json_string, " at line ", _json.get_error_line())
+			continue
+
+		var _save_dict = _json.data
+		return _save_dict
 
 
-func _load_board_data(save_name: String):
+func _set_board_save(save_name: String):
 	print("Currently loading save named: ", save_name)
+	if board_save_data.has(save_name):
+		code_editor.text = board_save_data[save_name]
+	else:
+		print("No valid save!")
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -342,19 +359,22 @@ func finished_typing() -> void:
 
 
 func editor_visible(save_name: String = current_board):
-	_load_board_data(save_name)
+	_set_board_save(save_name)
 	show()
 
 
-func editor_hidden():
-	boards_unsaved_data.append(code_editor.get_text())
+func editor_hidden(save_name: String = current_board):
+	board_save_data[save_name] = code_editor.get_text()
 	hide()
 
 
 func save():
-	var save_dict = {
-		"filename": get_scene_file_path(),
+	var _save_dict = {
 	}
-	#save_dict.assign(board_save_data)
+	_save_dict.merge(board_save_data)
 
-	return save_dict
+	return _save_dict
+
+
+func _exit_tree() -> void:
+	SaveHandler.save_board_data()

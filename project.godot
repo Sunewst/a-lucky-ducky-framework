@@ -20,6 +20,7 @@ boot_splash/show_image=false
 
 [autoload]
 
+SaveHandler="*res://scripts/save/SaveHandler.gd"
 SerialController="*res://scripts/serial_communication/SerialController.cs"
 ArduinoCli="*res://scripts/serial_communication/arduino_cli.gd"
 

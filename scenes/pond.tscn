@@ -167,7 +167,7 @@ material = SubResource("ShaderMaterial_go7bl")
 flip_faces = true
 size = Vector2(2, 2)
 
-[node name="Pond" type="Node3D"]
+[node name="Pond" type="Node3D" groups=["Saveable", "World"]]
 script = ExtResource("1_sgue5")
 current_board = ExtResource("2_sgue5")
 

@@ -22,6 +22,7 @@ const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .i
 
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
 
+var board_save_data: Dictionary
 var boards_unsaved_data: Array[String]
 
 var compile_arguments: Array[String] # Main compile arguments used in the arduino-cli
@@ -91,9 +92,12 @@ func _ready() -> void:
 	mark_libraries()
 
 
-func _load_save_data(save_name: String):
+func _load_save_data():
+	var save_file = FileAccess.open("user://save_data//board.save", FileAccess.READ)
+
+
+func _load_board_data(save_name: String):
 	print("Currently loading save named: ", save_name)
-	
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -338,10 +342,19 @@ func finished_typing() -> void:
 
 
 func editor_visible(save_name: String = current_board):
-	_load_save_data(save_name)
+	_load_board_data(save_name)
 	show()
 
 
 func editor_hidden():
 	boards_unsaved_data.append(code_editor.get_text())
 	hide()
+
+
+func save():
+	var save_dict = {
+		"filename": get_scene_file_path(),
+	}
+	#save_dict.assign(board_save_data)
+
+	return save_dict

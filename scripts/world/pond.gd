@@ -56,3 +56,15 @@ func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	hovering = false
 	current_focused_mesh = null
 	print("No longer hovering over: ", mesh.owner.name)
+
+
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"total_boards": total_boards,
+	}
+
+	return save_dict
+
+func _exit_tree() -> void:
+	SaveHandler.save_flock()

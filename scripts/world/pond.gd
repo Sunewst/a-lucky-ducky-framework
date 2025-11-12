@@ -1,7 +1,7 @@
 extends Node3D
 
-signal show_windows
-signal hide_windows
+signal show_editor
+signal hide_editor
 
 @export_range(1, 20, 1) var total_boards: int = 4
 @export var current_board: board_resource
@@ -12,9 +12,9 @@ signal hide_windows
 var board_model_scene: Node
 var boards: Array[Node3D]
 
-var board_collision_shapes
+var board_collision_shapes: Array[Node]
 var hovering: bool
-var current_focused_mesh
+var focused_mesh
 
 
 func _ready() -> void:
@@ -26,7 +26,7 @@ func _ready() -> void:
 		boards.append(board)
 
 	for board in boards:
-		board.global_position = Vector3(0 + x_muiltiplier, 0, 0)
+		board.call_deferred("set_global_position", Vector3(0 + x_muiltiplier, 0, 0))
 		x_muiltiplier += divider_amount
 		
 		board_collision_shapes = board.find_children("StaticBody3D")
@@ -40,23 +40,25 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_click") and hovering:
-		show_windows.emit(current_focused_mesh)
+		show_editor.emit(focused_mesh)
 
 	if event.is_action_pressed("close_code_editor"):
-		hide_windows.emit(current_focused_mesh)
-		#SaveHandler.save_pond()
+		hide_editor.emit(focused_mesh)
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
 	hovering = true
-	current_focused_mesh = mesh.owner.name
+	focused_mesh = mesh.owner.name
 	print("Hovering over: ", mesh.owner.name)
 
 
 func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
 	hovering = false
-	current_focused_mesh = null
 	print("No longer hovering over: ", mesh.owner.name)
+
+
+func add_new_board():
+	print("Adding new board!")
 
 
 func save():
@@ -66,6 +68,7 @@ func save():
 	}
 
 	return save_dict
+
 
 func _exit_tree() -> void:
 	SaveHandler.save_pond()

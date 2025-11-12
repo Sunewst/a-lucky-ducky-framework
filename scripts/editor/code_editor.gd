@@ -86,35 +86,9 @@ func _ready() -> void:
 	add_child(_text_timer)
 
 	code_editor.code_completion_enabled = false
+
 	code_editor.text_changed.connect(code_request_code_completion)
-
 	_text_timer.timeout.connect(finished_typing)
-
-	mark_loop()
-	mark_libraries()
-
-
-func _load_save_data():
-	var _board_save_file = FileAccess.open("user://save_data//board.save", FileAccess.READ)
-	while _board_save_file.get_position() < _board_save_file.get_length():
-		var _json_string = _board_save_file.get_line()
-		var _json = JSON.new()
-
-		var _parse_result = _json.parse(_json_string)
-		if not _parse_result == OK:
-			print("JSON Parse Error: ", _json.get_error_message(), " in ", _json_string, " at line ", _json.get_error_line())
-			continue
-
-		var _save_dict = _json.data
-		return _save_dict
-
-
-func _set_board_save(save_name: String):
-	print("Currently loading save named: ", save_name)
-	if board_save_data.has(save_name):
-		code_editor.text = board_save_data[save_name]
-	else:
-		print("No valid save!")
 
 
 func _on_serial_data_received(data: String) -> void:
@@ -233,7 +207,8 @@ func code_request_code_completion() -> void:
 	for canadit in code_completion_canadits[0].code_completion_canadits:
 		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, canadit, canadit)
 
-	code_editor.update_code_completion_options(true)
+	if code_editor.is_in_string(code_editor.get_caret_line(), code_editor.get_caret_column()) == -1:
+		code_editor.update_code_completion_options(true)
 
 
 func _highlight_errors(cli_output: String) -> void:
@@ -374,6 +349,31 @@ func save():
 	_save_dict.merge(board_save_data)
 
 	return _save_dict
+
+
+func _load_save_data():
+	var _board_save_file = FileAccess.open("user://save_data//board.save", FileAccess.READ)
+	while _board_save_file.get_position() < _board_save_file.get_length():
+		var _json_string = _board_save_file.get_line()
+		var _json = JSON.new()
+
+		var _parse_result = _json.parse(_json_string)
+		if not _parse_result == OK:
+			print("JSON Parse Error: ", _json.get_error_message(), " in ", _json_string, " at line ", _json.get_error_line())
+			continue
+
+		var _save_dict = _json.data
+		return _save_dict
+
+
+func _set_board_save(save_name: String):
+	if board_save_data.has(save_name):
+		code_editor.text = board_save_data[save_name]
+	else:
+		print("No valid save!")
+
+	mark_loop()
+	mark_libraries()
 
 
 func _exit_tree() -> void:

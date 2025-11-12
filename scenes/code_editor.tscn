@@ -31,7 +31,7 @@ color_regions = {
 "//": Color(0.681994, 0.942753, 0.991644, 0.617)
 }
 
-[node name="CodeEditor" type="Control"]
+[node name="CodeEditor" type="Control" groups=["CodeEditor"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,37 +48,16 @@ unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_right = 509.0
-offset_bottom = -9.0
+offset_right = 510.0
 grow_vertical = 2
 theme = ExtResource("1_i4sis")
-text = "#include \"Adafruit_seesaw.h\"
-
-Adafruit_seesaw ss;
-
-void setup() {
+text = "void setup() {
   Serial.begin(115200);
-
-  Serial.println(\"seesaw Soil Sensor example!\");
-  
-  if (!ss.begin(0x36)) {
-    Serial.println(\"ERROR! seesaw not found\");
-    while(1) {
-      delay(1);
-    }
-  } else {
-    Serial.print(\"seesaw started! version: \");
-    Serial.println(ss.getVersion(), HEX);
-  }
+	
 }
 
 void loop() {
-  float tempC = ss.getTemp();
-  uint16_t capread = ss.touchRead(0);
-
-  Serial.print(\"Temperature: \"); Serial.print(tempC); Serial.println(\"*C\");
-  Serial.print(\"Capacitive: \"); Serial.println(capread);
-  delay(100);
+	
 }"
 placeholder_text = "Enter your Arduino code here"
 scroll_smooth = true

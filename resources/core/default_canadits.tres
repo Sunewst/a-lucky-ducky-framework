@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_o7167")
-code_completion_canadits = Array[String](["delay()", "Serial", "print()", "digitalWrite()", "pinMode()", "digitalRead()"])
+code_completion_canadits = Array[String](["delay()", "Serial", "print()", "println()", "digitalWrite()", "pinMode()", "digitalRead()", "void loop() {", "void setup() {"])
 metadata/_custom_type_script = "uid://bk571ij27ski5"

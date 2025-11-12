@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bm82cdsoaxkhf"]
+[gd_scene load_steps=23 format=3 uid="uid://bm82cdsoaxkhf"]
 
 [ext_resource type="Shader" uid="uid://bu32bxcuo17mi" path="res://shaders/grid.gdshader" id="1_hvmvx"]
 [ext_resource type="Script" uid="uid://bie037jbpxk61" path="res://scripts/world/pond.gd" id="1_sgue5"]
@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://cmusypac6jfvu" path="res://resources/libraries/adafruit_BME280.tres" id="11_n5hp7"]
 [ext_resource type="Resource" uid="uid://5ag2vqabsr2o" path="res://resources/libraries/adafruit_soil_sensor.tres" id="12_43sjr"]
 [ext_resource type="Resource" uid="uid://c5goit44pjs5l" path="res://resources/libraries/adafruit_VEML7700_light_sensor.tres" id="13_8c2ka"]
+[ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="14_n5hp7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yjqe1"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -218,11 +219,23 @@ transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.43998, 0
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_fpgeh")
 
-[node name="CodeEditor" parent="." groups=["CodeEditor", "Saveable"] instance=ExtResource("5_sgue5")]
+[node name="CodeEditor" parent="." groups=["Saveable"] instance=ExtResource("5_sgue5")]
 visible = false
 boards_info = Array[ExtResource("6_l5ioj")]([ExtResource("7_n8bwo"), ExtResource("8_bpkyh"), ExtResource("9_vud12"), ExtResource("2_sgue5")])
 arduino_libraries = Array[ExtResource("10_p8mmv")]([ExtResource("11_n5hp7"), ExtResource("12_43sjr"), ExtResource("13_8c2ka")])
 
-[connection signal="hide_windows" from="." to="CodeEditor" method="editor_hidden"]
-[connection signal="show_windows" from="." to="CodeEditor" method="editor_visible"]
+[node name="NewBoard" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_bottom = 47.0
+grow_horizontal = 0
+theme = ExtResource("14_n5hp7")
+text = "Add New Board"
+
+[connection signal="hide_editor" from="." to="CodeEditor" method="editor_hidden"]
+[connection signal="show_editor" from="." to="CodeEditor" method="editor_visible"]
 [connection signal="currently_typing" from="CodeEditor" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_editor_currently_typing"]
+[connection signal="pressed" from="NewBoard" to="." method="add_new_board"]

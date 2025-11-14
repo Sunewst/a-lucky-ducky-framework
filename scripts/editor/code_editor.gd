@@ -9,7 +9,7 @@ signal finished_editing
 @onready var current_board: String = boards_info[3].board_FQBN
 
 @export_group("Boards")
-@export var code_completion_canadits: Array[code_completion_resource]
+@export var code_completion_candidates: Array[code_completion_resource]
 @export var boards_info: Array[board_resource]
 @export var arduino_libraries: Array[library_resource]
 
@@ -204,8 +204,9 @@ func _on_code_edit_focus_exited() -> void:
 
 
 func code_request_code_completion() -> void:
-	for canadit in code_completion_canadits[0].code_completion_canadits:
-		code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, canadit, canadit)
+	for candidates_resource in code_completion_candidates:
+		for candidate in candidates_resource.available_completion_candidates:
+			code_editor.add_code_completion_option(CodeEdit.KIND_FUNCTION, candidate, candidate)
 
 	if code_editor.is_in_string(code_editor.get_caret_line(), code_editor.get_caret_column()) == -1:
 		code_editor.update_code_completion_options(true)

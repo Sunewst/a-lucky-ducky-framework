@@ -11,10 +11,10 @@ signal hide_editor
 
 var board_model_scene: Node
 var boards: Array[Node3D]
-
 var board_collision_shapes: Array[Node]
-var hovering: bool
-var focused_mesh
+
+var currently_hovering: bool
+var focused_mesh: String
 
 
 func _ready() -> void:
@@ -39,21 +39,24 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_click") and hovering:
+	if event.is_action_pressed("left_click") and currently_hovering:
 		show_editor.emit(focused_mesh)
 
 	if event.is_action_pressed("close_code_editor"):
 		hide_editor.emit(focused_mesh)
+		
+	if event.is_action_pressed("open_board_properties") and currently_hovering:
+		print("Showing properties of board: ", focused_mesh)
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:
-	hovering = true
+	currently_hovering = true
 	focused_mesh = mesh.owner.name
 	print("Hovering over: ", mesh.owner.name)
 
 
 func _on_static_body_3d_mouse_exited(mesh: MeshInstance3D) -> void:
-	hovering = false
+	currently_hovering = false
 	print("No longer hovering over: ", mesh.owner.name)
 
 

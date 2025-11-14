@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://jln8kf13jyk"]
+
+[ext_resource type="Theme" uid="uid://etxhywncatso" path="res://graphics/global_theme.tres" id="1_nrtns"]
+[ext_resource type="Script" uid="uid://bk0o50q8e4kyt" path="res://scripts/editor/board_properties_menu.gd" id="1_xttmf"]
+
+[node name="Window" type="Window"]
+oversampling_override = 1.0
+title = "Board Properties"
+initial_position = 1
+size = Vector2i(400, 300)
+unresizable = true
+always_on_top = true
+minimize_disabled = true
+maximize_disabled = true
+script = ExtResource("1_xttmf")
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_nrtns")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_nrtns")
+text = "Edit board name"
+
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_nrtns")
+placeholder_text = "Enter new board name"

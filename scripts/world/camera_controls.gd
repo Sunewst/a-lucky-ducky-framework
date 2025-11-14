@@ -23,40 +23,40 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("left") and _in_focus == true:
+	if Input.is_action_pressed("move_camera_left") and _in_focus == true:
 		#rotation.y += rotation_speed * delta
 		_cam.position.x -= movement_speed * delta
 
 
-	if Input.is_action_pressed("right") and _in_focus == true:
+	if Input.is_action_pressed("move_camera_right") and _in_focus == true:
 		#rotation.y -= rotation_speed * delta
 		_cam.position.x += movement_speed * delta
 
 		
-	if Input.is_action_pressed("up") and _in_focus == true:
+	if Input.is_action_pressed("move_camera_up") and _in_focus == true:
 		#rotation.x += rotation_speed * delta
 		_cam.position.y += movement_speed * delta
 		
 
-	if Input.is_action_pressed("down") and _in_focus == true:
+	if Input.is_action_pressed("move_camera_down") and _in_focus == true:
 		#rotation.x -= rotation_speed * delta
 		_cam.position.y -= movement_speed * delta
 
 
-	if Input.is_action_just_pressed("arrow_right") and _in_focus:
+	if Input.is_action_just_pressed("rotate_camera_right") and _in_focus:
 		_rotate_camera(camera_rotation_amount)
 
 
-	if Input.is_action_just_pressed("arrow_left") and _in_focus:
+	if Input.is_action_just_pressed("rotate_camera_left") and _in_focus:
 		_rotate_camera(-camera_rotation_amount)
 
 
-	if Input.is_action_just_pressed("scroll_up") and _in_focus:
+	if Input.is_action_just_pressed("zoom_in") and _in_focus:
 		if not _cam.size <= camera_max_zoom_in:
 			_cam.size -= 1
 
 
-	if Input.is_action_just_pressed("scroll_down") and _in_focus:
+	if Input.is_action_just_pressed("zoom_out") and _in_focus:
 		if not _cam.size >= camera_max_zoom_out:
 			_cam.size += 1
 	

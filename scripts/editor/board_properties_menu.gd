@@ -1,6 +1,6 @@
 class_name BoardProperties extends Window
 
-const BOARD_PROPERTIES_SCENE: PackedScene = preload("res://scenes/loop_scene.tscn")
+const BOARD_PROPERTIES_SCENE: PackedScene = preload("res://scenes/board_properties_menu.tscn")
 
 
 func _ready() -> void:
@@ -11,6 +11,6 @@ func close_window():
 	hide()
 
 
-static func display_new_loop_window():
-	var new_loop_window: LoopWindow = BOARD_PROPERTIES_SCENE.instantiate()
-	return new_loop_window
+static func display_new_properties_window():
+	var new_properties_window: BoardProperties = BOARD_PROPERTIES_SCENE.instantiate()
+	return new_properties_window

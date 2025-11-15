@@ -8,6 +8,7 @@ signal hide_editor
 @export var divider_amount: int = 5
 
 @onready var code_editor: CodeEditor = $CodeEditor
+@onready var properties_window: BoardProperties = BoardProperties.display_new_properties_window()
 
 var board_model_scene: Node
 var boards: Array[Node3D]
@@ -19,6 +20,10 @@ var focused_mesh: String
 
 func _ready() -> void:
 	var x_muiltiplier: int = 0
+
+	properties_window = BoardProperties.display_new_properties_window()
+	properties_window.hide()
+	add_child(properties_window)
 
 	for i in total_boards:
 		var board: Node = load(current_board.board_model).instantiate()
@@ -47,6 +52,8 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("open_board_properties") and currently_hovering:
 		print("Showing properties of board: ", focused_mesh)
+		properties_window.show()
+		
 
 
 func _on_static_body_3d_mouse_entered(mesh: MeshInstance3D) -> void:

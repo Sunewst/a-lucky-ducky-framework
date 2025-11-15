@@ -10,6 +10,7 @@ initial_position = 1
 size = Vector2i(400, 300)
 unresizable = true
 always_on_top = true
+popup_window = true
 minimize_disabled = true
 maximize_disabled = true
 script = ExtResource("1_xttmf")

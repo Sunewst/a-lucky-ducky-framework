@@ -72,19 +72,20 @@ func _rotate_camera(direction: float):
 
 
 func _on_code_edit_focus_entered() -> void:
-	if _in_focus == true:
-		_in_focus = false
+	if _in_focus == false:
+		_in_focus = true
 		
 
 
 func _on_code_edit_focus_exited() -> void:
-	if _in_focus == false:
-		_in_focus= true
+	if _in_focus == true:
+		_in_focus= false
 
 
 func _on_code_editor_currently_typing(status: bool) -> void:
-	if status:
-		_in_focus = false
-	else:
-		_in_focus = true
+	pass
+	#if status:
+		#_in_focus = false
+	#else:
+		#_in_focus = true
 	

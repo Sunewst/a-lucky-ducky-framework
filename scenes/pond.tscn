@@ -241,5 +241,7 @@ text = "Add New Board"
 
 [connection signal="hide_editor" from="." to="CodeEditor" method="editor_hidden"]
 [connection signal="show_editor" from="." to="CodeEditor" method="editor_visible"]
+[connection signal="focus_entered" from="SubViewportContainer" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_edit_focus_entered"]
+[connection signal="focus_exited" from="SubViewportContainer" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_edit_focus_exited"]
 [connection signal="currently_typing" from="CodeEditor" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_editor_currently_typing"]
 [connection signal="pressed" from="NewBoard" to="." method="add_new_board"]

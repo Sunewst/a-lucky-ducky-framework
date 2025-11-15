@@ -40,6 +40,7 @@ project/assembly_name="A Lucky Ducky"
 
 folder_colors={
 "res://cli/": "gray",
+"res://experimental/": "pink",
 "res://graphics/": "purple",
 "res://resources/": "orange",
 "res://scenes/": "red",

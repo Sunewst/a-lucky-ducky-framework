@@ -16,6 +16,7 @@ signal finished_editing
 @export_group("Debug")
 @export var debug_validity_messages: bool # If true, print out whether or not a line is 'Valid' 
 @export var debug_highlights: bool # If true, highlight when each line is executed
+@export var saving_enabled: bool = true
 
 const GUTTER: int = 2 # Main gutter
 const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .ino file
@@ -23,6 +24,7 @@ const INO_USER_PATH: String = 'user://Nest//Nest.ino' # The godot path to the .i
 var ino_global_path: String = ProjectSettings.globalize_path(INO_USER_PATH) # The global path to the .ino file
 
 var board_save_data: Dictionary
+
 
 var compile_arguments: Array[String] # Main compile arguments used in the arduino-cli
 var upload_arguments: Array[String] # Main upload arguments used in the arduino-cli
@@ -135,11 +137,11 @@ func _compile_code(user_code: CodeEdit, cli_arguments: Array[String]):
 	for library in _libraries_added:
 		var _library_update_function: String
 		var _library_print: String
-		var _loop_start_location: Vector2i = _get_loop_location(_compiled_code)
+		var _loop_start_location: Vector2i = EditorHelper.get_loop_location(_compiled_code)
 
 		for available_library in arduino_libraries:
 			if available_library.library_name.contains(library):
-				var _library_location: Array[Vector2i] = find_total_occurrences(available_library.library_name)
+				var _library_location: Array[Vector2i] = EditorHelper.find_total_occurrences(available_library.library_name, code_editor)
 				var _library_initialization_var: String
 				var _library_function: String
 				var _initialization_location = code_editor.search(available_library.library_name.get_slice(".", 0), 2, _library_location[0].y + 1, 0)
@@ -255,25 +257,8 @@ func _on_board_clicked(id: int) -> void:
 	board_changed.emit(boards_info[id])
 
 
-func find_total_occurrences(text: String) -> Array[Vector2i]:
-	var _occurences_locations: Array[Vector2i]
-	var _current_line_location: Vector2i = Vector2i(0, 0)
-	var _occurence: Vector2i
-
-	for i in code_editor.get_line_count():
-		_occurence = code_editor.search(text, 2, _current_line_location.y + 1, 0)
-		var _current_line = code_editor.get_line(_occurence.y).get_slice("//", 0).strip_edges()
-
-		if _occurence.y != -1 and _occurence not in _occurences_locations and not _current_line.is_empty():
-			_occurences_locations.append(_occurence)
-			_current_line_location = _occurence
-		else:
-			break
-	return _occurences_locations
-
-
 func mark_loop() -> void:
-	var _loop_start_location: Vector2i = _get_loop_location(code_editor)
+	var _loop_start_location: Vector2i = EditorHelper.get_loop_location(code_editor)
 
 	if _loop_start_location != Vector2i(-1, -1):
 		code_editor.set_line_gutter_text(_loop_start_location[1], GUTTER, 'L')
@@ -284,7 +269,7 @@ func mark_loop() -> void:
 
 
 func mark_libraries():
-	var _library_locations: Array[Vector2i] = find_total_occurrences("#include ")
+	var _library_locations: Array[Vector2i] = EditorHelper.find_total_occurrences("#include ", code_editor)
 	_libraries_added.clear()
 
 	if not _library_locations.is_empty():
@@ -307,10 +292,6 @@ func _add_main_gutter():
 func _redraw_gutter():
 	code_editor.remove_gutter(GUTTER)
 	_add_main_gutter()
-
-
-func _get_loop_location(editor: CodeEdit) -> Vector2i:
-	return editor.search("Void loop()", 2, 0, 0)
 
 
 func _on_code_edit_gutter_clicked(line: int, gutter: int) -> void:
@@ -378,4 +359,5 @@ func _set_board_save(save_name: String):
 
 
 func _exit_tree() -> void:
-	SaveHandler.save_board_data()
+	if saving_enabled:
+		SaveHandler.save_board_data()

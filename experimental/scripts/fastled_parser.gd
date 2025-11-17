@@ -22,15 +22,20 @@ static func parse_code(editor: CodeEdit):
 	var variable_locations: Array[Vector2i] = EditorHelper.find_total_data_types(editor, DATA_TYPES)
 	var functions_locations: Array[Vector2i] = EditorHelper.find_total_functions(editor, DATA_TYPES)
 	
+	for i in editor.get_line_count():
+		code_editor_node.insert_line_at(i, "")
+	
+	code_editor_node.insert_line_at(loop_location.y, "func _process(delta: float) -> void:")
+	
 	for function_location in functions_locations:
 		var converted_function: String = _convert_function(editor, function_location)
-		code_editor_node.set_line(function_location.y, converted_function)
+		code_editor_node.insert_line_at(function_location.y, converted_function)
 
 	for variable_location in variable_locations:
 		var converted_variable: String = _convert_variable(editor, variable_location)
-		code_editor_node.set_line(variable_location.y, converted_variable)
-
-	code_editor_node.set_line(loop_location.y, "test")
+		code_editor_node.insert_line_at(variable_location.y, converted_variable)
+		
+	print(code_editor_node.get_line_count())
 
 	return code_editor_node.get_text()
 

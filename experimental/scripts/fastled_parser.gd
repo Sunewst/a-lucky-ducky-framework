@@ -16,18 +16,18 @@ const DATA_TYPES: Array[String] = [
 
 static func parse_code(editor: CodeEdit):
 	#var script = GDScript.new()
-	var code_editor_node = CodeEdit.new()
+	var code_editor_node: CodeEdit = CodeEdit.new()
 
-	var loop_location = EditorHelper.get_loop_location(editor)
-	var variable_locations = EditorHelper.find_total_data_types(editor, DATA_TYPES)
-	var functions_locations = EditorHelper.find_total_functions(editor, DATA_TYPES)
+	var loop_location: Vector2i = EditorHelper.get_loop_location(editor)
+	var variable_locations: Array[Vector2i] = EditorHelper.find_total_data_types(editor, DATA_TYPES)
+	var functions_locations: Array[Vector2i] = EditorHelper.find_total_functions(editor, DATA_TYPES)
 	
 	for function_location in functions_locations:
-		var converted_function = _convert_function(editor, function_location)
+		var converted_function: String = _convert_function(editor, function_location)
 		code_editor_node.set_line(function_location.y, converted_function)
 
 	for variable_location in variable_locations:
-		var converted_variable = _convert_variable(editor, variable_location)
+		var converted_variable: String = _convert_variable(editor, variable_location)
 		code_editor_node.set_line(variable_location.y, converted_variable)
 
 	code_editor_node.set_line(loop_location.y, "test")
@@ -36,23 +36,25 @@ static func parse_code(editor: CodeEdit):
 
 
 
-static func _convert_function(editor: CodeEdit, function_location: Vector2i):
-	var current_line = EditorHelper.remove_comments(editor.get_line(function_location.y))
-	var _return_type = current_line.get_slice(" ", 0)
-	var function_name = current_line.get_slice(" ", 1).get_slice("(", 0)
-	var function_parameters = current_line.get_slice("(", 1).get_slice(")", 0)
+static func _convert_function(editor: CodeEdit, function_location: Vector2i) -> String:
+	var converted_function: String
 
-	var converted_function = "func %s (%s)" % [function_name, function_parameters]
+	var current_line: String = EditorHelper.remove_comments(editor.get_line(function_location.y))
+	var _return_type: String = current_line.get_slice(" ", 0)
+	var function_name: String = current_line.get_slice(" ", 1).get_slice("(", 0)
+	var function_parameters: String = current_line.get_slice("(", 1).get_slice(")", 0)
+
+	converted_function = "func %s (%s)" % [function_name, function_parameters]
 
 	return converted_function
 
 
-static func _convert_variable(editor: CodeEdit, data_type_location: Vector2i):
-	var converted_variable 
+static func _convert_variable(editor: CodeEdit, data_type_location: Vector2i) -> String:
+	var converted_variable: String
 
-	var current_line = EditorHelper.remove_comments(editor.get_line(data_type_location.y))
-	var variable_name = current_line.get_slice(" ", 1).get_slice("=", 0)
-	var variable_value = current_line.get_slice("=", 1).replace(";", "")
+	var current_line: String = EditorHelper.remove_comments(editor.get_line(data_type_location.y))
+	var variable_name: String = current_line.get_slice(" ", 1).get_slice("=", 0)
+	var variable_value: String = current_line.get_slice("=", 1).replace(";", "")
 		
 	if variable_value.is_empty():
 		converted_variable = "var %s;" % [variable_name]

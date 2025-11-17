@@ -8,7 +8,7 @@ static func find_total_occurrences(text: String, editor: CodeEdit) -> Array[Vect
 
 	for i in editor.get_line_count():
 		_occurence = editor.search(text, 2, _current_line_location.y + 1, 0)
-		var _current_line = editor.get_line(_occurence.y).get_slice("//", 0).strip_edges()
+		var _current_line = remove_comments(editor.get_line(_occurence.y))
 
 		if _occurence.y != -1 and _occurence not in _occurences_locations and not _current_line.is_empty():
 			_occurences_locations.append(_occurence)
@@ -62,3 +62,7 @@ static func find_total_functions(editor: CodeEdit, data_types: Array[String]):
 			_occurences_locations.append(data_type)
 
 	return _occurences_locations
+
+
+static func remove_comments(line_string: String):
+	return line_string.get_slice("//", 0).strip_edges()

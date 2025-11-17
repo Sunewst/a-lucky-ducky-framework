@@ -8,6 +8,5 @@ func _ready() -> void:
 		
 	
 
-
 func _compile_fastled() -> void:
 	print(FastLEDParser.parse_code(code_edit_node))

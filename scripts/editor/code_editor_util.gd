@@ -58,7 +58,8 @@ static func find_total_functions(editor: CodeEdit, data_types: Array[String]):
 
 	for data_type in _potential_functions:
 		var current_line = editor.get_line(data_type.y)
-		if current_line.contains("("):
+
+		if current_line.contains("(") and not current_line.contains("loop()") and not current_line.contains("setup()"):
 			_occurences_locations.append(data_type)
 
 	return _occurences_locations

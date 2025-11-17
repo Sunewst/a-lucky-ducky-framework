@@ -21,7 +21,6 @@ var focused_mesh: String
 func _ready() -> void:
 	var x_muiltiplier: int = 0
 
-	properties_window = BoardProperties.display_new_properties_window()
 	properties_window.hide()
 	add_child(properties_window)
 

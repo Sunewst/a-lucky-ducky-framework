@@ -15,7 +15,7 @@ var _cam
 @export var snap := true
 
 var camera_animation_running: bool = true
-var _in_focus: bool = true
+var _in_focus: bool = false
 
 
 func _ready() -> void:

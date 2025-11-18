@@ -1,5 +1,23 @@
 class_name EditorHelper extends Node
 
+const CONTROL_STRUCTUERS: Array[String] = [
+	"if",
+	"else if",
+	"while",
+	"for",
+]
+
+
+const DATA_TYPES: Array[String] = [
+	"int",
+	"float",
+	"void", #Not really a data type
+]
+
+const OPERATORS: Array[String] = [
+	"=="
+]
+
 
 static func find_total_occurrences(text: String, editor: CodeEdit) -> Array[Vector2i]:
 	var _occurences_locations: Array[Vector2i]
@@ -34,11 +52,11 @@ static func get_setup_location(editor: CodeEdit) -> Vector2i:
 		return Vector2i(-1, -1)
 
 
-static func find_total_data_types(editor: CodeEdit, data_types: Array[String]) -> Array[Vector2i]:
+static func find_total_data_types(editor: CodeEdit) -> Array[Vector2i]:
 	var _potential_data_types: Array[Vector2i]
 	var _occurences_locations: Array[Vector2i]
 
-	for data_type in data_types:
+	for data_type in DATA_TYPES:
 		_potential_data_types.append_array(find_total_occurrences(data_type, editor))
 
 	for occurence in _potential_data_types:
@@ -49,11 +67,11 @@ static func find_total_data_types(editor: CodeEdit, data_types: Array[String]) -
 	return _occurences_locations
 
 
-static func find_total_functions(editor: CodeEdit, data_types: Array[String]) -> Array[Vector2i]:
+static func find_total_functions(editor: CodeEdit) -> Array[Vector2i]:
 	var _occurences_locations: Array[Vector2i]
 	var _potential_functions: Array[Vector2i]
 
-	for data_type in data_types:
+	for data_type in DATA_TYPES:
 		_potential_functions.append_array(find_total_occurrences(data_type, editor))
 
 	for data_type in _potential_functions:
@@ -61,6 +79,32 @@ static func find_total_functions(editor: CodeEdit, data_types: Array[String]) ->
 
 		if current_line.contains("(") and not current_line.contains("loop()") and not current_line.contains("setup()"):
 			_occurences_locations.append(data_type)
+
+	return _occurences_locations
+
+
+static func find_total_operations(editor: CodeEdit) -> Array[Vector2i]:
+	var _occurences_locations: Array[Vector2i]
+	var _potential_operators: Array[Vector2i]
+	
+	_potential_operators.append_array(find_total_occurrences("=", editor))
+	for operator in _potential_operators:
+		var current_line: String = editor.get_line(operator.y)
+
+		for data_type in DATA_TYPES:
+			if current_line.contains(data_type):
+				break
+			_occurences_locations.append(operator)
+			break
+
+	return _occurences_locations
+
+
+static func find_total_control_statements(editor: CodeEdit) -> Array[Vector2i]:
+	var _occurences_locations: Array[Vector2i]
+
+	for control_structure in CONTROL_STRUCTUERS:
+		_occurences_locations.append_array(find_total_occurrences(control_structure, editor))
 
 	return _occurences_locations
 

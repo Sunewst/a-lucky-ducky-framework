@@ -1,5 +1,7 @@
 class_name FastLED extends Node
 
 
-func fill_soild(targetArray, numToFill, color):
-	print("Setting LED strip to color", color)
+
+func fill_soild(targetArray: PackedColorArray, numToFill, color: Color):
+	for i in numToFill:
+		targetArray[i] = color

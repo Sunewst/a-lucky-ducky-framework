@@ -27,7 +27,7 @@ static func parse_code(editor: CodeEdit):
 	for operation_location in operations_locations:
 		var converted_operator: String = _convert_operator(editor, operation_location)
 		code_editor_node.insert_line_at(operation_location.y, converted_operator)
-		
+
 	for control_statement_location in control_statements_locations:
 		var converted_control_statement: String = _convert_control_statements(editor, control_statement_location)
 		code_editor_node.insert_line_at(control_statement_location.y, converted_control_statement)
@@ -69,7 +69,7 @@ static func _convert_operator(editor: CodeEdit, operator_location: Vector2i) -> 
 
 	var current_line: String = EditorHelper.remove_comments(editor.get_line(operator_location.y))
 
-	current_line.replace(";", "")
+	current_line = current_line.replace(";", "")
 	converted_operator = current_line
 
 	return converted_operator
@@ -102,3 +102,7 @@ static func _convert_control_statements(editor: CodeEdit, control_location: Vect
 				converted_control_statement = "else:"
 
 	return converted_control_statement
+
+
+static func _convert_fastled_methods(editor: CodeEdit):
+	pass

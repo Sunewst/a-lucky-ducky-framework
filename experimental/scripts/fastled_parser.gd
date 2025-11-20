@@ -27,6 +27,9 @@ static func parse_code(editor: CodeEdit):
 	for control_statement_location in editor_components_locations["control_statements"]:
 		var converted_control_statement: String = _convert_control_statements(editor, control_statement_location)
 		code_editor_node.insert_line_at(control_statement_location, converted_control_statement)
+		
+	for function_call_location in editor_components_locations["function_calls"]:
+		pass
 
 	return code_editor_node.get_text()
 
@@ -39,6 +42,11 @@ static func _convert_function(editor: CodeEdit, function_location: int) -> Strin
 	var _return_type: String = current_line.get_slice(" ", 0)
 	var function_name: String = current_line.get_slice(" ", 1).get_slice("(", 0)
 	var function_parameters: String = current_line.get_slice("(", 1).get_slice(")", 0)
+	
+	for function_parameter in function_parameters.split(","):
+		var variable_type = function_parameter.get_slice(" ", function_parameter.get_slice_count(" ") - 2)
+		function_parameters = function_parameters.replace(variable_type, "")
+
 
 	converted_function = "func %s (%s):" % [function_name, function_parameters]
 
@@ -100,6 +108,10 @@ static func _convert_control_statements(editor: CodeEdit, control_location: int)
 	return converted_control_statement
 
 
+static func _convert_function_calls(editor: CodeEdit):
+	pass
+
+
 static func get_code_components(editor: CodeEdit):
 	var led_dictionary: Dictionary = {
 		"variable_initilzations": [],
@@ -108,7 +120,6 @@ static func get_code_components(editor: CodeEdit):
 		"control_statements": [],
 		"function_calls": []
 	}
-
 
 	for i in editor.get_line_count():
 		var current_line = editor.get_line(i).remove_chars("}").strip_edges()

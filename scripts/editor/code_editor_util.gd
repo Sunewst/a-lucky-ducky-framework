@@ -109,5 +109,13 @@ static func find_total_control_statements(editor: CodeEdit) -> Array[Vector2i]:
 	return _occurences_locations
 
 
+static func contains_array(string: String, array: Array[String]):
+	for index in array:
+		if string.contains(index):
+			return true
+
+	return false
+
+
 static func remove_comments(line_string: String) -> String:
 	return line_string.get_slice("//", 0).strip_edges()

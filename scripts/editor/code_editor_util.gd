@@ -51,7 +51,7 @@ static func get_setup_location(editor: CodeEdit) -> Vector2i:
 	else:
 		return Vector2i(-1, -1)
 
-
+## @deprecated These find functions are inefficient and need to be redone
 static func find_total_data_types(editor: CodeEdit) -> Array[Vector2i]:
 	var _potential_data_types: Array[Vector2i]
 	var _occurences_locations: Array[Vector2i]

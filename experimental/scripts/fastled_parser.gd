@@ -3,36 +3,53 @@ class_name FastLEDParser
 static func parse_code(editor: CodeEdit):
 	#var script = GDScript.new()
 	var code_editor_node: CodeEdit = CodeEdit.new()
-	var loop_location: Vector2i = EditorHelper.get_loop_location(editor)
 
-	var editor_components_locations = get_code_components(editor)
+	var editor_components_dic = get_code_components(editor)
+	editor_components_dic.sort()
 
 	for i in editor.get_line_count():
-		code_editor_node.insert_line_at(i, "")
-	
-	code_editor_node.insert_line_at(loop_location.y, "func _process(delta: float) -> void:")
-	
-	for function_location in editor_components_locations["function_initilzations"]:
-		var converted_function: String = _convert_function(editor, function_location)
-		code_editor_node.insert_line_at(function_location, converted_function)
+		code_editor_node.insert_line_at(i, " ")
 
-	for variable_location in editor_components_locations["variable_initilzations"]:
-		var converted_variable: String = _convert_variable(editor, variable_location)
-		code_editor_node.insert_line_at(variable_location, converted_variable)
-		
-	for operation_location in editor_components_locations["variable_operations"]:
-		var converted_operator: String = _convert_operator(editor, operation_location)
-		code_editor_node.insert_line_at(operation_location, converted_operator)
+	for editor_component_location in editor_components_dic:
+		var component: String = editor_components_dic[editor_component_location].get_slice(" ", 0)
+		var component_location: int = editor_component_location
+		var converted_component: String
+	
+		match component:
+			"function_initilzations":
+				converted_component = _convert_function(editor, component_location)
+			
+			"variable_initilzations":
+				converted_component = _convert_variable(editor, component_location)
 
-	for control_statement_location in editor_components_locations["control_statements"]:
-		var converted_control_statement: String = _convert_control_statements(editor, control_statement_location)
-		code_editor_node.insert_line_at(control_statement_location, converted_control_statement)
+			"variable_operations":
+				converted_component = _convert_operator(editor, component_location)
+
+			"control_statements":
+				converted_component = _convert_control_statements(editor, component_location)
+
+			"function_calls":
+				converted_component = _convert_function_calls(editor, component_location)
+
+			"loop":
+				converted_component = "func _process(delta: float) -> void:"
 		
-	for function_call_location in editor_components_locations["function_calls"]:
-		pass
+		code_editor_node.insert_line_at(component_location, converted_component)
+
+	code_editor_node.set_line(0, "extends FastLED")
 
 	return code_editor_node.get_text()
 
+
+static func _add_indents(editor: CodeEdit, line: int, text: String):
+	var indented_line: String = text
+	var indent_level: int = editor.get_indent_level(line)
+
+	if indent_level > 0:
+		for i in indent_level:
+			indented_line = indented_line.indent(" ")
+
+	return indented_line
 
 
 static func _convert_function(editor: CodeEdit, function_location: int) -> String:
@@ -49,6 +66,7 @@ static func _convert_function(editor: CodeEdit, function_location: int) -> Strin
 
 
 	converted_function = "func %s (%s):" % [function_name, function_parameters]
+	converted_function = _add_indents(editor, function_location, converted_function)
 
 	return converted_function
 
@@ -58,12 +76,14 @@ static func _convert_variable(editor: CodeEdit, data_type_location: int) -> Stri
 
 	var current_line: String = EditorHelper.remove_comments(editor.get_line(data_type_location))
 	var variable_name: String = current_line.get_slice(" ", 1).get_slice("=", 0)
-	var variable_value: String = current_line.get_slice("=", 1).replace(";", "")
+	var variable_value: String = current_line.get_slice("=", 1).remove_chars(";")
 
 	if variable_value.is_empty():
 		converted_variable = "var %s;" % [variable_name]
 	else:
 		converted_variable = "var %s =%s" % [variable_name, variable_value]
+	
+	converted_variable = _add_indents(editor, data_type_location, converted_variable)
 
 	return converted_variable
 
@@ -73,8 +93,10 @@ static func _convert_operator(editor: CodeEdit, operator_location: int) -> Strin
 
 	var current_line: String = EditorHelper.remove_comments(editor.get_line(operator_location))
 
-	current_line = current_line.replace(";", "")
+	current_line = current_line.remove_chars(";")
+
 	converted_operator = current_line
+	converted_operator = _add_indents(editor, operator_location, converted_operator)
 
 	return converted_operator
 
@@ -105,22 +127,27 @@ static func _convert_control_statements(editor: CodeEdit, control_location: int)
 			else:
 				converted_control_statement = "else:"
 
+	converted_control_statement = _add_indents(editor, control_location, converted_control_statement)
+	
 	return converted_control_statement
 
 
-static func _convert_function_calls(editor: CodeEdit):
-	pass
+static func _convert_function_calls(editor: CodeEdit, function_call_location: int):
+	var converted_function_call: String = EditorHelper.remove_comments(editor.get_line(function_call_location))
+
+	converted_function_call = converted_function_call.remove_chars(";")
+	converted_function_call = _add_indents(editor, function_call_location, converted_function_call)
+
+	return converted_function_call
 
 
 static func get_code_components(editor: CodeEdit):
 	var led_dictionary: Dictionary = {
-		"variable_initilzations": [],
-		"function_initilzations": [],
-		"variable_operations": [],
-		"control_statements": [],
-		"function_calls": []
 	}
 
+	led_dictionary[EditorHelper.get_loop_location(editor).y] = "loop"
+	led_dictionary[0] = "fastled#"
+	
 	for i in editor.get_line_count():
 		var current_line = editor.get_line(i).remove_chars("}").strip_edges()
 		var loop_location = EditorHelper.get_loop_location(editor).y
@@ -131,15 +158,15 @@ static func get_code_components(editor: CodeEdit):
 
 		elif EditorHelper.contains_array(current_line, EditorHelper.DATA_TYPES):
 			if current_line.contains("(") and not current_line.contains("="):
-				led_dictionary["function_initilzations"].append(i)
+				led_dictionary[i] = "function_initilzations %s" % [i]
 			else:
-				led_dictionary["variable_initilzations"].append(i)
+				led_dictionary[i] = "variable_initilzations %s" % [i]
 
 		elif EditorHelper.contains_array(current_line, EditorHelper.CONTROL_STRUCTUERS):
-			led_dictionary["control_statements"].append(i)
+			led_dictionary[i] = "control_statements %s" % [i]
 		elif current_line.contains("="):
-			led_dictionary["variable_operations"].append(i)
+			led_dictionary[i] = "variable_operations %s" % [i]
 		else:
-			led_dictionary["function_calls"].append(i)
+			led_dictionary[i] = "function_calls %s" % [i]
 	
 	return led_dictionary

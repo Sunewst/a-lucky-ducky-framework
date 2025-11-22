@@ -10,5 +10,5 @@ func _ready() -> void:
 	
 
 func _compile_fastled() -> void:
-	print(FastLEDParser.parse_code(code_edit_node))
+	#print(FastLEDParser.parse_code(code_edit_node))
 	code_edit_node.set_text(FastLEDParser.parse_code(code_edit_node))

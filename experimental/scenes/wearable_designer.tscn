@@ -242,18 +242,6 @@ mesh = SubResource("QuadMesh_8ulwq")
 boards_info = Array[ExtResource("5_x4ab7")]([ExtResource("6_8ulwq"), ExtResource("7_fe8b1"), ExtResource("8_y8gkd"), ExtResource("7_3mvgf")])
 saving_enabled = false
 
-[node name="CodeEdit" parent="CodeEditor" index="0"]
-text = "#include FastLED.h
-
-void setup() {
-  Serial.begin(115200);
-	
-}
-
-void loop() {
-	
-}"
-
 [node name="FastLEDButton" type="Button" parent="."]
 anchors_preset = 6
 anchor_left = 1.0
@@ -271,5 +259,3 @@ theme = ExtResource("11_y8gkd")
 [connection signal="focus_exited" from="SubViewportContainer" to="SubViewportContainer/SubViewport/CameraControl" method="_on_code_edit_focus_exited"]
 [connection signal="curve_changed" from="SubViewportContainer/SubViewport/Path3D" to="SubViewportContainer/SubViewport/Path3D" method="_on_curve_changed"]
 [connection signal="pressed" from="FastLEDButton" to="." method="_compile_fastled"]
-
-[editable path="CodeEditor"]

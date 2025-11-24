@@ -1,6 +1,7 @@
 @tool
 extends Path3D
 
+
 @export var distance_between = 1.0:
 	set(value):
 		distance_between = value
@@ -19,8 +20,11 @@ func _process(_delta: float) -> void:
 func _update_muiltimesh():
 	var path_length: float = curve.get_baked_length()
 	var count = floor(path_length / distance_between)
+	var mm: MultiMesh
 
-	var mm: MultiMesh = $MultiMeshInstance3D.multimesh
+	$MultiMeshInstance3D.multimesh.mesh = $NeopixelStrip.mesh
+	mm = $MultiMeshInstance3D.multimesh
+	
 	mm.instance_count = count
 
 	var offset = distance_between / 2.0
@@ -30,6 +34,7 @@ func _update_muiltimesh():
 		var object_position = curve.sample_baked(curve_distance, true)
 		
 		var object_basis = Basis()
+		
 
 		var up = curve.sample_baked_up_vector(curve_distance, true)
 		var forward = object_position.direction_to(curve.sample_baked(curve_distance + 0.1, true))

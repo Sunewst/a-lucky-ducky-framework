@@ -1,3 +1,7 @@
+# For now, the neopixel genarator is a tool, meaning in only runs in the engine editor.
+# Due to that, the code is really ugly until its converted to a normal script
+
+
 @tool
 extends Path3D
 
@@ -21,7 +25,6 @@ func _update_muiltimesh():
 	var mm: MultiMesh
 
 	$MultiMeshInstance3D.multimesh.mesh = $NeopixelStrip.mesh
-	print($NeopixelStrip.get_active_material(1))
 	$MultiMeshInstance3D.material_override = $NeopixelStrip.get_active_material(1)
 
 	mm = $MultiMeshInstance3D.multimesh

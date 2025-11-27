@@ -40,7 +40,7 @@ var board_menu = PopupMenu.new()
 
 var _text_timer: Timer
 
-var _ignore_keywords: Array[String] = [
+const IGNORE_KEYWORDS: Array[String] = [
 	"{",
 	"}",
 	"#include ",
@@ -173,7 +173,7 @@ func check_for_validity(line: String) -> String:
 	var _print_highlight: String = "Serial.println(\"\\n$%s$%s$%s\");" 
 
 	line = line.get_slice("//", 0).strip_edges()
-	for ignore_keyword in _ignore_keywords:
+	for ignore_keyword in IGNORE_KEYWORDS:
 		if line.begins_with(ignore_keyword) or line.ends_with(ignore_keyword) or line.is_empty():
 			return ""
 

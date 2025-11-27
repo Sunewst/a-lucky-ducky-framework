@@ -48,7 +48,8 @@ anchor_bottom = 1.0
 offset_right = 510.0
 grow_vertical = 2
 theme = ExtResource("1_i4sis")
-text = "void setup() {
+text = "
+void setup() {
   Serial.begin(115200);
 	
 }

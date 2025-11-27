@@ -1,20 +1,18 @@
 @tool
 extends Path3D
 
+var path_changed: bool
 
 @export var distance_between = 1.0:
 	set(value):
 		distance_between = value
 		path_changed = true
 
-var path_changed: bool
-
 
 func _process(_delta: float) -> void:
 	if path_changed:
 		_update_muiltimesh()
 		path_changed = false
-	
 
 
 func _update_muiltimesh():
@@ -23,11 +21,15 @@ func _update_muiltimesh():
 	var mm: MultiMesh
 
 	$MultiMeshInstance3D.multimesh.mesh = $NeopixelStrip.mesh
+	print($NeopixelStrip.get_active_material(1))
+	$MultiMeshInstance3D.material_override = $NeopixelStrip.get_active_material(1)
+
 	mm = $MultiMeshInstance3D.multimesh
 	
 	mm.instance_count = count
 
 	var offset = distance_between / 2.0
+	#mm.set_instance_custom_data(1, Color(0.0, 0.611, 0.0, 1.0))
 	
 	for i in range(0, count):
 		var curve_distance = offset + distance_between * i

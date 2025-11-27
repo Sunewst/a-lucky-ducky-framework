@@ -1,0 +1,14 @@
+<Project Sdk="Godot.NET.Sdk/4.5.0">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>ALuckyDucky</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+  <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="cli\arduino-cli" />
+    <Content Include="cli\arduino-cli.exe" />
+  </ItemGroup>
+</Project>
